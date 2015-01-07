@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="insight2-web:war">
+    <output-path>$PROJECT_DIR$/insight2-web/target</output-path>
+    <root id="archive" name="insight2-web.war">
+      <element id="artifact" artifact-name="insight2-web:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,41 @@
+package com.insight.web.controller;
+
+import com.mongodb.util.JSON;
+import generator.dao.RawPatternDao;
+import generator.model.RawPatternModel;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+@Controller
+public class InsightIndexController {
+
+    private static final Logger logger = Logger.getLogger(InsightIndexController.class);
+
+    @Autowired
+    RawPatternDao rawPatternDao;
+
+    @RequestMapping("/index")
+    public String hello(@RequestParam(value="index", required=false, defaultValue="0") String index, Model model) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            RawPatternModel rpm = (RawPatternModel) rawPatternDao.loadNext(Integer.parseInt(index));
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(byteArrayOutputStream, rpm);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("name", JSON.serialize(byteArrayOutputStream.toString()));
+        return "helloworld";
+    }
+
+}
