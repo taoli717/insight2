@@ -28,7 +28,7 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
 
     @Override
     public void generate() throws Exception {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
+        //ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
         //StockDao stockDao = (StockDao) ctx.getBean("stockDaoImp");
         String days = "30000";
         PriceRetriever http = new MarkItOnDemondPriceRetriever();
@@ -81,5 +81,8 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
         }
 
         logger.info(listString);
+    }
+    public static void main(String[] args) throws Exception {
+        new StockDataGeneratorServiceImpl().generate();
     }
 }
