@@ -22,7 +22,7 @@ import java.util.*;
  */
 @Service
 @DependsOn("StockDataGeneratorService")
-public class StockParserServiceImpl implements StockParserService, Runnable  {
+public class StockParserServiceImpl implements StockParserService{
     public static double targetPect = .1;
 
     private static final Logger logger = Logger.getLogger(StockParserServiceImpl.class);
@@ -40,13 +40,17 @@ public class StockParserServiceImpl implements StockParserService, Runnable  {
     public void init() throws Exception{
         logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
         if(!setUpService.isSetUp()){
-            this.parse();
-            setUpService.setUpSuccess();
+            try{
+                this.parse();
+                setUpService.setUpSuccess();
+            }catch(Exception e){
+                logger.error("Initial install failed");
+            }
         }
     }
 
     @Override
-    public void parse(){
+    public void parse() throws Exception{
         //ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
         StockModel sm = (StockModel) stockDao.loadNext();
         //StockDao stockDao = (StockDao) ctx.getBean("stockDaoImp");
@@ -58,7 +62,7 @@ public class StockParserServiceImpl implements StockParserService, Runnable  {
         while(sm!=null){
             if(stockDao.isDBExist(sm.stockName)){
                 sm = (StockModel) stockDao.loadNext();
-                logger.error(sm.stockName + " skipped");
+                logger.info(sm.stockName + " skipped");
                 continue;
             }
             System.out.println("processing: " + total);
@@ -93,7 +97,6 @@ public class StockParserServiceImpl implements StockParserService, Runnable  {
                 }
             }
             sm = (StockModel) stockDao.loadNext();
-
         }
         System.out.println("done  " + total);
     }
@@ -116,8 +119,4 @@ public class StockParserServiceImpl implements StockParserService, Runnable  {
         return dsmMap;
     }
 
-    @Override
-    public void run() {
-        this.parse();
-    }
 }
