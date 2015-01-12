@@ -9,7 +9,7 @@ import generator.model.RawPatternModel;
 public interface RawPatternDao {
     public boolean save(RawPatternModel rpm);
 
-    long getNextSequenceId() throws Exception;
+    long getNextSequenceId(String tableName) throws Exception;
 
     Object loadNext(int seqIndex);
 }

@@ -5,7 +5,9 @@ import generator.dao.RawPatternDao;
 import generator.model.RawPatternModel;
 import generator.parser.StockParser;
 import generator.service.StockDataGeneratorService;
+import generator.service.StockDataGeneratorServiceImpl;
 import generator.service.StockParserService;
+import generator.service.StockParserServiceImpl;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,4 +64,11 @@ public class InsightIndexController {
         return "init-success";
     }
 
+    @RequestMapping("/parse")
+    public String parseBegin(Model model){
+        StockDataGeneratorServiceImpl sps = (StockDataGeneratorServiceImpl) stockParserService;
+        (new Thread(new StockParserServiceImpl())).start();
+        //stockParserService.parse();
+        return "parse-start";
+    }
 }

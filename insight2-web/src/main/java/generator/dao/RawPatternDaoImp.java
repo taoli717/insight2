@@ -2,6 +2,7 @@ package generator.dao;
 
 import com.mongodb.DBCursor;
 import generator.model.RawPatternModel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RawPatternDaoImp implements RawPatternDao {
 
+    private static final Logger logger = Logger.getLogger(RawPatternDaoImp.class);
     private static DBCursor cursor;
     static long seqIndex = 1;
 
@@ -26,20 +28,41 @@ public class RawPatternDaoImp implements RawPatternDao {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Override
-    public boolean save(RawPatternModel rpm) {
-        try {
-            long i = getNextSequenceId();
+    private boolean localCaced;
+
+    public boolean save(RawPatternModel rpm){
+        boolean isSaved = true;
+        try{
+            //TODO remove if block eventually
+            if(!localCaced){
+                Query query = new Query();
+                query.addCriteria(Criteria.where("seq").is(1));
+                RawPatternModel dbSm = null;
+                try{
+                    dbSm = mongoOperation.findOne(query, RawPatternModel.class);
+                }catch (Exception e){
+                    logger.error(e);
+                }
+                if(dbSm==null){
+                    rpm.setSeq(1);
+                    mongoOperation.save(rpm);
+                }else{
+                    localCaced = true;
+                }
+            }
+            //TODO make sure stock code is unique
+            long i = getNextSequenceId(rpm.getStockName());
             rpm.setSeq(i);
-        } catch (Exception e) {
-            e.printStackTrace();
+            mongoOperation.save(rpm, rpm.getStockName());
+        }catch (Exception e){
+            logger.error(e);
+            isSaved = false;
         }
-        mongoOperation.save(rpm);
-        return true;
+        return isSaved;
     }
 
     @Override
-    public long getNextSequenceId() throws Exception {
+    public long getNextSequenceId(String tableName) throws Exception {
         //get sequence id
         Query query = new Query();
         //increase sequence id by 1
@@ -49,17 +72,18 @@ public class RawPatternDaoImp implements RawPatternDao {
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.returnNew(true);
         //this is the magic happened.
-        Long total = mongoOperation.count(null,RawPatternModel.class);
+        Long total = mongoOperation.count(null,tableName);
        // RawPatternModel sm =  mongoOperation.findAndModify(query, update, options, RawPatternModel.class);
         //if no id, throws
         //optional, just a way to tell user when the sequence id is failed to generate.
         return total;
     }
+
+    //TODO need to rewrite it to loop all tables
     @Override
     public Object loadNext(int seqIndex) {
         Query query = new Query();
         query.addCriteria(Criteria.where("seq").is(seqIndex));
-
         RawPatternModel dbSm = mongoOperation.findOne(query, RawPatternModel.class);
         return dbSm;
     }

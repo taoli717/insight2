@@ -3,6 +3,7 @@ package generator.service;
 import generator.config.DataGeneratorAppConfig;
 import generator.constant.TestStockName;
 import generator.dao.StockDao;
+import generator.init.SetUpService;
 import generator.model.StockModel;
 import generator.retriever.MarkItOnDemondPriceRetriever;
 import generator.retriever.PriceRetriever;
@@ -10,8 +11,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -25,6 +28,17 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
 
     @Autowired
     StockDao stockDao;
+
+    @Autowired
+    SetUpService setUpService;
+
+    @PostConstruct
+    public void init() throws Exception {
+        logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
+        if(!setUpService.isSetUp()){
+            this.generate();
+        }
+    }
 
     @Override
     public void generate() throws Exception {
