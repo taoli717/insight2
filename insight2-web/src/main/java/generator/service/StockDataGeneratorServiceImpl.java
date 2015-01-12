@@ -3,6 +3,7 @@ package generator.service;
 import generator.config.DataGeneratorAppConfig;
 import generator.constant.TestStockName;
 import generator.dao.StockDao;
+import generator.init.SetUpService;
 import generator.model.StockModel;
 import generator.retriever.MarkItOnDemondPriceRetriever;
 import generator.retriever.PriceRetriever;
@@ -10,8 +11,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -26,18 +29,30 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
     @Autowired
     StockDao stockDao;
 
+    @Autowired
+    SetUpService setUpService;
+
+    @PostConstruct
+    public void init() throws Exception {
+        logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
+        if(!setUpService.isSetUp()){
+            try{
+                this.generate();
+            }catch(Exception e){
+                logger.error("Initial installation failed");
+            }
+        }
+    }
+
     @Override
     public void generate() throws Exception {
-        //ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
-        //StockDao stockDao = (StockDao) ctx.getBean("stockDaoImp");
+        //attempt to query 30000 days of history
         String days = "30000";
         PriceRetriever http = new MarkItOnDemondPriceRetriever();
-        //String[] stocksName = ArrayUtils.addAll(NASDAQStockName.STOCK_NAMES, NYSCStockNames.STOCK_NAMES);
         String[] stocksName = TestStockName.ALL_STOCK_NAME;
-       // String[] stocksName = {"TSLA"};
-        //I'm Ken2
         ArrayList<String> workingStock = new ArrayList<String>();
         int i = 0;
+        //TODO use Stopwatch
         long startTime = System.currentTimeMillis();
         for(String stockName : stocksName){
             Boolean autoIncre = true;
@@ -71,18 +86,12 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
             Thread.sleep(1000);
         }
         String listString = "";
-
         long endTime = System.currentTimeMillis();
-
         logger.info("Total time spent: " + (endTime - startTime) / 1000);//total time in seconds
         for (String s : workingStock)
         {
             listString = listString + "\"" + s + "\", ";
         }
-
         logger.info(listString);
-    }
-    public static void main(String[] args) throws Exception {
-        new StockDataGeneratorServiceImpl().generate();
     }
 }

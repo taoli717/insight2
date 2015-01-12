@@ -3,32 +3,55 @@ package generator.service;
 import generator.config.DataGeneratorAppConfig;
 import generator.dao.RawPatternDao;
 import generator.dao.StockDao;
+import generator.init.SetUpService;
 import generator.model.DailyStockModel;
 import generator.model.RawPatternModel;
 import generator.model.StockModel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
  * Created by PC on 2014/11/23.
  */
 @Service
-public class StockParserServiceImpl implements StockParserService {
+@DependsOn("StockDataGeneratorService")
+public class StockParserServiceImpl implements StockParserService{
     public static double targetPect = .1;
+
+    private static final Logger logger = Logger.getLogger(StockParserServiceImpl.class);
 
     @Autowired
     RawPatternDao rawPatternDao;
 
     @Autowired
+    SetUpService setUpService;
+
+    @Autowired
     StockDao stockDao;
 
+    @PostConstruct
+    public void init() throws Exception{
+        logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
+        if(!setUpService.isSetUp()){
+            try{
+                this.parse();
+                setUpService.setUpSuccess();
+            }catch(Exception e){
+                logger.error("Initial install failed");
+            }
+        }
+    }
+
     @Override
-    public void parse(){
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
+    public void parse() throws Exception{
+        //ApplicationContext ctx = new AnnotationConfigApplicationContext(DataGeneratorAppConfig.class);
         StockModel sm = (StockModel) stockDao.loadNext();
         //StockDao stockDao = (StockDao) ctx.getBean("stockDaoImp");
         //RawPatternDao rpmDao = (RawPatternDao) ctx.getBean("rawPatternDaoImp");
@@ -36,7 +59,12 @@ public class StockParserServiceImpl implements StockParserService {
         int buyingDayIndex = 120;
         int holdingPeriod = 20;
         int mimumIgonreSize = 180;
-        if(sm!=null){
+        while(sm!=null){
+            if(stockDao.isDBExist(sm.stockName)){
+                sm = (StockModel) stockDao.loadNext();
+                logger.info(sm.stockName + " skipped");
+                continue;
+            }
             System.out.println("processing: " + total);
             total++;
             LinkedHashMap<Date,DailyStockModel> dmMap = sm.getDailyStocks();
@@ -68,7 +96,6 @@ public class StockParserServiceImpl implements StockParserService {
                     }
                 }
             }
-            System.exit(0);
             sm = (StockModel) stockDao.loadNext();
         }
         System.out.println("done  " + total);
@@ -91,4 +118,5 @@ public class StockParserServiceImpl implements StockParserService {
         }
         return dsmMap;
     }
+
 }

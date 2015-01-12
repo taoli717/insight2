@@ -97,4 +97,10 @@ public class StockDaoImp implements StockDao{
         }
         return sm.getSeq();
     }
+
+    @Override
+    public boolean isDBExist(String DBName) {
+        return mongoOperation.collectionExists(DBName);
+    }
+
 }

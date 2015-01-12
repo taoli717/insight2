@@ -10,4 +10,5 @@ public interface StockDao {
     public StockModel load(String stockName);
     public Object loadNext();
     public long getNextSequenceId(String key) throws Exception;
+    public boolean isDBExist(String DBName);
 }
