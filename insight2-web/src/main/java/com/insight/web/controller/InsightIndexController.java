@@ -47,7 +47,9 @@ public class InsightIndexController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        model.addAttribute("stockSample", JSON.serialize(byteArrayOutputStream.toString()));
+        String returnJson = JSON.serialize(byteArrayOutputStream.toString());
+        model.addAttribute("stockSample", returnJson.substring(1, returnJson.length()-1).replace("\\\"","\""));
+        logger.info(JSON.serialize(byteArrayOutputStream.toString()));
         return "index";
     }
 
