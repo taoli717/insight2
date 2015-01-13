@@ -37,6 +37,7 @@ public class InsightIndexController {
     // sample page to show how the data looks like
     @RequestMapping("/index")
     public String hello(@RequestParam(value="index", required=false, defaultValue="0") String index, Model model) {
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             RawPatternModel rpm = (RawPatternModel) rawPatternDao.loadNext(Integer.parseInt(index));
@@ -47,28 +48,7 @@ public class InsightIndexController {
             e.printStackTrace();
         }
         model.addAttribute("stockSample", JSON.serialize(byteArrayOutputStream.toString()));
-        return "helloworld";
+        return "index";
     }
 
-    // TODO Useless view, just a way to triger data generator for installation. only use when the first time install
-    @RequestMapping("/init")
-    public String init(Model model) throws Exception {
-        stockDataGeneratorService.generate();
-        stockParserService.parse();
-        return "init";
-    }
-
-    //TODO should redirect to this page when the installation is done
-    @RequestMapping("/init/success")
-    public String initSuccess(Model model){
-        return "init-success";
-    }
-
-    @RequestMapping("/parse")
-    public String parseBegin(Model model){
-        StockDataGeneratorServiceImpl sps = (StockDataGeneratorServiceImpl) stockParserService;
-        (new Thread(new StockParserServiceImpl())).start();
-        //stockParserService.parse();
-        return "parse-start";
-    }
 }
