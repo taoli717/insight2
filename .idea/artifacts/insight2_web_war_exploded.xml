@@ -34,7 +34,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="F:\insight2\insight2-web\target/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/insight2-web/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="insight2-web/web/Web" />
     </root>
