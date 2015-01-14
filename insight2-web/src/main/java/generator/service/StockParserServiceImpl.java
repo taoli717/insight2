@@ -87,7 +87,7 @@ public class StockParserServiceImpl implements StockParserService{
                             rpm.setSellingDate(sellingDay);
                             rpm.setStockName(sm.getStockName());
                             rpm.setStockCode(sm.getStockCode());
-                            System.out.println("j: " + j);
+                            //System.out.println("j: " + j);
                             List rpmStockDateList = (List) dateList.subList(j -60, j + i +20);
                             rpm.setDailyStocks(generateRPMDailyStockModel(rpmStockDateList, sm));
                             rawPatternDao.save(rpm);
