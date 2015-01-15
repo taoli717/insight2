@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <script src="/resources/js/sample.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resouces/css/sample.css">
 <title>Insight2</title>
 </head>
 <body>
