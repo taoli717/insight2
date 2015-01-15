@@ -84,7 +84,7 @@ public class RawPatternDaoImp implements RawPatternDao {
     public Object loadNext(int seqIndex) {
         Query query = new Query();
         query.addCriteria(Criteria.where("seq").is(seqIndex));
-        RawPatternModel dbSm = mongoOperation.findOne(query, RawPatternModel.class);
+        RawPatternModel dbSm = (RawPatternModel) mongoOperation.find(query, RawPatternModel.class, "B").get(0);
         return dbSm;
     }
 }
