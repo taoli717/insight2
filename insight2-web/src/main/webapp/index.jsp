@@ -10,6 +10,8 @@
         <script src="/resources/openSource/bootstrap-3.1.1/bootstrap.js"></script>
         <script src="/resources/openSource/angular-1.2.28/angular.js"></script>
         <script src="/resources/openSource/angular-ui-router-0.2.13/angular-ui-router.js"></script>
+        <script src="http://code.highcharts.com/stock/highstock.js"></script>
+        <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
         <script src="/resources/js/app.js"></script>
     </head>
 
