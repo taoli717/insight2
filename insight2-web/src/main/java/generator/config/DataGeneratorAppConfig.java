@@ -3,6 +3,8 @@ package generator.config;
 import generator.dao.*;
 import generator.init.SetUpService;
 import generator.init.SetUpServiceImpl;
+import generator.parser.MarketItOnDemandStockParser;
+import generator.parser.StockParser;
 import generator.service.StockDataGeneratorService;
 import generator.service.StockDataGeneratorServiceImpl;
 import generator.service.StockParserService;
@@ -52,5 +54,11 @@ public class DataGeneratorAppConfig {
     public SetUpService setUpService(){
         SetUpService setUpService = new SetUpServiceImpl();
         return setUpService;
+    }
+
+    @Bean
+    public StockParser stockParser(){
+        StockParser stockParser = new MarketItOnDemandStockParser();
+        return stockParser;
     }
 }

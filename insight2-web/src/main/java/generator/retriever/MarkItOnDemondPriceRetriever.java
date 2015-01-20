@@ -3,6 +3,7 @@ package generator.retriever;
 import generator.model.StockModel;
 import generator.parser.StockParser;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,6 +17,9 @@ import java.util.regex.Pattern;
  * Created by PC on 10/26/2014.
  */
 public class MarkItOnDemondPriceRetriever implements PriceRetriever{
+
+    @Autowired
+    private StockParser stockParser;
     private final String USER_AGENT = "Mozilla/5.0";
     private static final Logger logger = Logger.getLogger(MarkItOnDemondPriceRetriever.class);
 
@@ -58,8 +62,7 @@ public class MarkItOnDemondPriceRetriever implements PriceRetriever{
         if (matcher.find())
         {
             String stock = matcher.group(1);
-            StockParser stockP = new StockParser();
-            sm = stockP.parseStockModelFromJSON(stock);
+            sm = stockParser.parseStockModelFromJSON(stock);
             sm.setStockName(stockName);
         }
         wr.close();
