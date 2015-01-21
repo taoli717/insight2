@@ -22,8 +22,8 @@
             <a class="navbar-brand" ui-sref="#">Tao's Project</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a ui-sref="home">Home</a></li>
-            <li><a ui-sref="stock">Stock</a></li>
+            <li><a ui-sref="#/home">Home</a></li>
+            <li><a ui-sref="#/stock">Stock</a></li>
         </ul>
     </nav>
 

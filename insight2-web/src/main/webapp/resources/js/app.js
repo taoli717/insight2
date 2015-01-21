@@ -11,6 +11,6 @@ angular.module('routerApp', ['ui.router'])
             })
             .state('stock', {
                 url: '/stock',
-                templateUrl: 'views/stock.html'
+                templateUrl: '/views/stock.html'
             });
     });
