@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
+@EnableMongoRepositories
 public class MongoConfig {
 
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
-
 		MongoClient mongo = new MongoClient("127.0.0.1");
 		SimpleMongoDbFactory simpleMongoDbFactory = new SimpleMongoDbFactory(mongo, "meemee");
 		return simpleMongoDbFactory;
@@ -22,7 +23,6 @@ public class MongoConfig {
 	
 	@Bean(name="mongoTemplate")
 	public MongoTemplate mongoTemplate() throws Exception {
-
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
         // show error, should off on production to speed up performance
         mongoTemplate.setWriteConcern(WriteConcern.SAFE);

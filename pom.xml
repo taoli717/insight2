@@ -16,6 +16,8 @@
 
     <properties>
         <spring.version>4.1.4.RELEASE</spring.version>
+        <springdata.version>1.6.1.RELEASE</springdata.version>
+        <spring.expression.version>4.0.2.RELEASE</spring.expression.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.9</slf4j.version>
         <jstl.version>1.2</jstl.version>
@@ -23,11 +25,15 @@
         <cglib.version>2.2.2</cglib.version>
         <junit.version>3.8.1</junit.version>
         <json.simple.version>1.1.1</json.simple.version>
-        <springdata.version>1.7.0.BUILD-SNAPSHOT</springdata.version>
         <apache.common.version>3.1</apache.common.version>
         <jackson.mapper.asl.version>1.8.5</jackson.mapper.asl.version>
     </properties>
-
+    <!-- Spring Boot -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.1.RELEASE</version>
+    </parent>
     <repositories>
         <repository>
             <id>spring-snapshots</id>
@@ -48,6 +54,10 @@
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>${json.simple.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -76,6 +86,12 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -122,5 +138,20 @@
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson.mapper.asl.version}</version>
         </dependency>
+ <!--       <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.expression.version}</version>
+        </dependency>-->
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
