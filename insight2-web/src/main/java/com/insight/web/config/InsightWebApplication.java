@@ -27,7 +27,9 @@ public class InsightWebApplication  extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(InsightWebApplication.class, args);
+       new SpringApplicationBuilder().headless(true)
+               .sources(InsightWebApplication.class, InsightWebMvcConfig.class)
+               .headless(true).web(true).run(args);
     }
 
 }
