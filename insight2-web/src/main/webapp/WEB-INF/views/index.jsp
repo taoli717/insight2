@@ -5,14 +5,17 @@
     <div id="container1" style="height: 400px; min-width: 310px"></div>
     <script>
         $(function () {
+
+            //sample connection, feel free to remove it
             $.ajax({
                 url: "/api/sample" ,
                 dataType: 'json',
                 type: "GET"
             })
-                    .done(function( data ) {
-                        alert(data)
+            .done(function( data ) {
+                console.log(data);
                     });
+
             var seriesOptions = [],
                     seriesCounter = 0,
                     names = ['MSFT', 'AAPL', 'GOOG'],
