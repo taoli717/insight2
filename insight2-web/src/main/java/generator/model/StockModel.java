@@ -16,7 +16,6 @@ public class StockModel {
     public long seq;
     @Id
     public String stockName;
-    public String stockCode;
     public LinkedHashMap<Date, DailyStockModel> dailyStocks;
 
     public String getStockName() {
@@ -25,14 +24,6 @@ public class StockModel {
 
     public void setStockName(String stockName) {
         this.stockName = stockName;
-    }
-
-    public String getStockCode() {
-        return stockCode;
-    }
-
-    public void setStockCode(String stockCode) {
-        this.stockCode = stockCode;
     }
 
     public LinkedHashMap<Date, DailyStockModel> getDailyStocks() {

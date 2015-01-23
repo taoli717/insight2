@@ -17,7 +17,6 @@ public class RawPatternModel implements Serializable{
     @Id
     public long seq;
     public String stockName;
-    public String stockCode;
     public LinkedHashMap<Date, DailyStockModel> dailyStocks;
     public Date buyingDate;
     public Date sellingDate;
@@ -44,14 +43,6 @@ public class RawPatternModel implements Serializable{
 
     public void setStockName(String stockName) {
         this.stockName = stockName;
-    }
-
-    public String getStockCode() {
-        return stockCode;
-    }
-
-    public void setStockCode(String stockCode) {
-        this.stockCode = stockCode;
     }
 
     public LinkedHashMap<Date, DailyStockModel> getDailyStocks() {

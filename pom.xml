@@ -25,9 +25,19 @@
         <json.simple.version>1.1.1</json.simple.version>
         <springdata.version>1.7.0.BUILD-SNAPSHOT</springdata.version>
         <apache.common.version>3.1</apache.common.version>
-        <jackson.mapper.asl.version>1.8.5</jackson.mapper.asl.version>
+        <jackson.mapper.asl.version>1.9.13</jackson.mapper.asl.version>
     </properties>
-
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <repositories>
         <repository>
             <id>spring-snapshots</id>
@@ -119,8 +129,14 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.mapper.asl.version}</version>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.13</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -16,10 +16,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration //Marks this class as configuration
 //Specifies which package to scan
-//@ComponentScan({"com.insight"})
 @ComponentScan({"com.insight"})
 @Import({ DataGeneratorAppConfig.class })
-//Enables Spring's annotations
 //@Import({MongoConfig.class})
 @EnableWebMvc   
 public class Config extends WebMvcConfigurationSupport {
