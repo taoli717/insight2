@@ -6,7 +6,7 @@
     <!--<div class="col-lg-12" ng-repeat="item in tempSample">-->
         <!--<p>{{item.firstName}}</p> <p>*</p> <p>{{item.lastName}}</p> <br/>-->
     <!--</div>-->
-    <div class="col-lg-12">
+    <div class="col-lg-12" ng-show="tableFlag">
         <table class="table table-bordered">
             <tr>
                 <th>Date</th>
@@ -16,15 +16,15 @@
                 <th>close</th>
                 <th>volume</th>
             </tr>
-            <!--<tr ng-repeat="item in tempSample.dailyStocks">-->
-                <!--<td>item.date</td>-->
-                <!--<td>item.high</td>-->
-                <!--<td>item.low</td>-->
-                <!--<td>item.open</td>-->
-                <!--<td>item.close</td>-->
-                <!--<td>item.volume</td>-->
-            <!--</tr>-->
+            <tr ng-repeat="item in tempSample.dailyStocks">
+                <td>{{item.date}}</td>
+                <td>{{item.high}}</td>
+                <td>{{item.low}}</td>
+                <td>{{item.open}}</td>
+                <td>{{item.close}}</td>
+                <td>{{item.volume}}</td>
+            </tr>
         </table>
     </div>
-    {{tempSample.dailyStocks}}
+    {{tempSample}}
 </div>
