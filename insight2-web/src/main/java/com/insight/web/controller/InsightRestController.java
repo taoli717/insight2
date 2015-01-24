@@ -18,8 +18,14 @@ public class InsightRestController {
     RawPatternDao rawPatternDao;
 
     @RequestMapping(value="sample/{id}")
-    public RawPatternModel getSampleRpm(@PathVariable("id") int i){
+    public RawPatternModel getRpm(@PathVariable("id") int i){
         RawPatternModel rpm = (RawPatternModel) rawPatternDao.loadNext(Integer.parseInt(String.valueOf(i)));
+        return rpm;
+    }
+
+    @RequestMapping(value="sample")
+    public RawPatternModel getSampleRpm(){
+        RawPatternModel rpm = (RawPatternModel) rawPatternDao.loadNext(Integer.parseInt(String.valueOf(0)));
         return rpm;
     }
 }
