@@ -6,11 +6,20 @@ angular.module('routerApp', ['ui.router'])
             // Home state
             .state('home', {
                 url: '/home',
-//              templateUrl: 'views/home.html'
-                templateUrl: '/index'
+                templateUrl: '/resources/views/home.html',
+                controller: function($scope, $http) {
+                    //$scope.tempSample = [{firstName: "John", lastName: "Ty"},{firstName: "Bob", lastName: "Thrs"}];
+                    $scope.getSampleData = function() {
+                        $http.get('api/sample')
+                            .then(function(res) {
+                                $scope.tempSample = res.data;
+                            });
+                    };
+                }
             })
+            // Stock state
             .state('stock', {
                 url: '/stock',
-                templateUrl: '/views/stock.html'
+                templateUrl: '/resources/views/stock.html'
             });
     });
