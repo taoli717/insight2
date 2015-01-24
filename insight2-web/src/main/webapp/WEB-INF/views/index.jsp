@@ -8,12 +8,12 @@
 
             //sample connection, feel free to remove it
             $.ajax({
-                url: "/api/sample" ,
+                url: "/api/sample/1" ,
                 dataType: 'json',
                 type: "GET"
             })
-            .done(function( data ) {
-                console.log(data);
+                    .done(function( data ) {
+                        console.log(data);
                     });
 
             var seriesOptions = [],
