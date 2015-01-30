@@ -11,5 +11,5 @@ public interface RawPatternDao {
 
     long getNextSequenceId(String tableName) throws Exception;
 
-    Object loadNext(int seqIndex);
+    Object load(int seqIndex, String tableName);
 }

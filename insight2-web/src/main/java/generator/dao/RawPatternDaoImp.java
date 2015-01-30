@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by PC on 11/29/2014.
@@ -81,10 +82,13 @@ public class RawPatternDaoImp implements RawPatternDao {
 
     //TODO need to rewrite it to loop all tables
     @Override
-    public Object loadNext(int seqIndex) {
+    public Object load(int seqIndex, String tableName) {
+        if(tableName == null || StringUtils.isEmpty(tableName)){
+            tableName = "B";
+        }
         Query query = new Query();
         query.addCriteria(Criteria.where("seq").is(seqIndex));
-        RawPatternModel dbSm = (RawPatternModel) mongoOperation.find(query, RawPatternModel.class, "B").get(0);
+        RawPatternModel dbSm = (RawPatternModel) mongoOperation.find(query, RawPatternModel.class, tableName).get(0);
         return dbSm;
     }
 }

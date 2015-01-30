@@ -8,7 +8,7 @@
 
             //sample connection, feel free to remove it
             $.ajax({
-                url: "/api/sample/1" ,
+                url: "/api/rawpattern/AA/5" ,
                 dataType: 'json',
                 type: "GET"
             })

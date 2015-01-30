@@ -13,7 +13,8 @@ angular.module('routerApp', ['ui.router'])
                         $scope.tableFlag = false;
                     };
                     $scope.getSampleData = function() {
-                        $http.get('api/sample')
+                        //AA stock name, 5 pattern index - remove me
+                        $http.get('/api/rawPattern/AA/5')
                             .then(function(res) {
                                 $scope.tempSample = res.data;
                                 $scope.tableFlag = true;
@@ -38,7 +39,8 @@ angular.module('routerApp', ['ui.router'])
                     };
                     $scope.getSampleData = function() {
                         $http
-                        .get('api/sample')
+                            //AA stock name, 5 pattern index - remove me
+                        .get('/api/rawPattern/AA/5')
                         .then(function (res) {
                             $scope.tempSample = res.data;
                             $scope.tableFlag = true;

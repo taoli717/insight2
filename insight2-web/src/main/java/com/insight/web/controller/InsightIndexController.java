@@ -40,7 +40,7 @@ public class InsightIndexController {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            RawPatternModel rpm = (RawPatternModel) rawPatternDao.loadNext(Integer.parseInt(index));
+            RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(Integer.parseInt(index), null);
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(byteArrayOutputStream, rpm);
 
