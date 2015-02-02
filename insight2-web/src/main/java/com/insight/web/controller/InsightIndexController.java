@@ -1,13 +1,10 @@
 package com.insight.web.controller;
 
 import com.mongodb.util.JSON;
-import generator.dao.RawPatternDao;
-import generator.model.RawPatternModel;
-import generator.parser.StockParser;
-import generator.service.StockDataGeneratorService;
-import generator.service.StockDataGeneratorServiceImpl;
-import generator.service.StockParserService;
-import generator.service.StockParserServiceImpl;
+import com.insight.generator.dao.RawPatternDao;
+import com.insight.generator.model.RawPatternModel;
+import com.insight.generator.service.StockDataGeneratorService;
+import com.insight.generator.service.StockParserService;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
