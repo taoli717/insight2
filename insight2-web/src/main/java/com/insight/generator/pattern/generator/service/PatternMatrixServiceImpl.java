@@ -110,7 +110,7 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         double mean = getMean(list);
         List<Double> result = new LinkedList<>();
         for(Double data : list){
-            result.add(data - mean);
+            result.add((data - mean)/mean);
         }
         return result;
     }
