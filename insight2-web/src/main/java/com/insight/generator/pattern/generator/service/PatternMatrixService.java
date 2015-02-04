@@ -8,7 +8,7 @@ import com.insight.generator.pattern.generator.model.PatternMatrix;
  */
 public interface PatternMatrixService {
 
-    PatternMatrix parseRawPatternModel(RawPatternModel rpm);
+    PatternMatrix parseRawPatternModel(RawPatternModel rpm) throws Exception;
 
     void savePatternMatrix(PatternMatrix pm);
 }

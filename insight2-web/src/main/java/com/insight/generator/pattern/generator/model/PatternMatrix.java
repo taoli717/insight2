@@ -1,6 +1,7 @@
 package com.insight.generator.pattern.generator.model;
 
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,8 @@ import java.util.Date;
  */
 @Document(collection = "pattern_matrix")
 public class PatternMatrix {
+
+    public static final String DELIMITER = "*#*";
 
     @Id
     public String index;
@@ -26,15 +29,36 @@ public class PatternMatrix {
     public RealMatrix diffMeanMatrix;
 
     public RealMatrix percentMatrix;
-
     public double fistDayPrice;
 
     public double meanValue;
 
-    public static final String DELIMITER = "*#*";
+    public RealVector percentMatrixNorm;
+
+    public RealVector diffMeanMatrixNorm;
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
     public String getIndex() {
         return getStockName() + DELIMITER + getSeq();
+    }
+
+    public RealVector getDiffMeanMatrixNorm() {
+        return diffMeanMatrixNorm;
+    }
+
+    public void setDiffMeanMatrixNorm(RealVector diffMeanMatrixNorm) {
+        this.diffMeanMatrixNorm = diffMeanMatrixNorm;
+    }
+
+    public RealVector getPercentMatrixNorm() {
+        return percentMatrixNorm;
+    }
+
+    public void setPercentMatrixNorm(RealVector percentMatrixNorm) {
+        this.percentMatrixNorm = percentMatrixNorm;
     }
 
     public void setIndex() {
