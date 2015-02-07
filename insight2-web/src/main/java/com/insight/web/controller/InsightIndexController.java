@@ -1,10 +1,10 @@
 package com.insight.web.controller;
 
-import com.mongodb.util.JSON;
 import com.insight.generator.dao.RawPatternDao;
 import com.insight.generator.model.RawPatternModel;
 import com.insight.generator.service.StockDataGeneratorService;
 import com.insight.generator.service.StockParserService;
+import com.mongodb.util.JSON;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;

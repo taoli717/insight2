@@ -12,6 +12,7 @@
 
     <modules>
         <module>insight2-web</module>
+        <module>insight2-generator</module>
     </modules>
 
     <properties>
