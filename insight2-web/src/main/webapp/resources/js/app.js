@@ -8,13 +8,26 @@ angular.module('routerApp', ['ui.router'])
                 url: '/home',
                 templateUrl: '/resources/views/home.html',
                 controller: function($scope, $http) {
+
                     $scope.tableFlag = false;
+
+                    $scope.scopeSelectName = 'AA';  // stock name
+
+                    $scope.scopeSelectStockSeq = 0; // stock seq
+
+                    $scope.scopeGetDataURL = "";
+
                     $scope.hideTable = function() {
                         $scope.tableFlag = false;
                     };
+
                     $scope.getSampleData = function() {
+
+                        $scope.scopeGetDataURL = '/api/rawPattern/' + $scope.scopeSelectName + '/' + $scope.scopeSelectStockSeq;
+
                         //AA stock name, 5 pattern index - remove me
-                        $http.get('/api/rawPattern/AA/5')
+                        //$http.get('/api/rawPattern/AA/5')
+                        $http.get( $scope.scopeGetDataURL )
                             .then(function(res) {
                                 $scope.tempSample = res.data;
                                 $scope.tableFlag = true;
@@ -25,6 +38,7 @@ angular.module('routerApp', ['ui.router'])
                                 console.log($scope.dailyStockArray);*/
                             });
                     };
+                // end of home controller
                 }
             })
             // Stock state
@@ -32,15 +46,30 @@ angular.module('routerApp', ['ui.router'])
                 url: '/stock',
                 templateUrl: '/resources/views/stock.html',
                 controller: function($scope, $http) {
+
                     $scope.chartData = [];
+
                     $scope.tableFlag = false;
+
+                    $scope.scopeSelectName = 'AA';  // stock name
+
+                    $scope.scopeSelectStockSeq = 0; // stock seq
+
+                    $scope.scopeGetDataURL = "";
+
                     $scope.hideTable = function() {
                         $scope.tableFlag = false;
                     };
+
                     $scope.getSampleData = function() {
+
+                        $scope.chartData = [];
+
+                        $scope.scopeGetDataURL = '/api/rawPattern/' + $scope.scopeSelectName + '/' + $scope.scopeSelectStockSeq;
+
                         $http
                             //AA stock name, 5 pattern index - remove me
-                        .get('/api/rawPattern/AA/5')
+                        .get( $scope.scopeGetDataURL )
                         .then(function (res) {
                             $scope.tempSample = res.data;
                             $scope.tableFlag = true;
