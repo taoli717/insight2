@@ -1,4 +1,4 @@
-package com.insight.pattern.generator.service;
+package com.insight.generator.service;
 
 /**
  * Created by PC on 2/1/2015.

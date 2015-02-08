@@ -34,10 +34,14 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     @PostConstruct
     public void parse() throws Exception {
-        RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(0, RawPatternDaoImp.TEST_STOCK_NAME);
-        logger.info(" Parsing " + rpm.getStockName() + rpm.getSeq());
-        PatternMatrix pm = parseRawPatternModel(rpm);
-        savePatternMatrix(pm);
+        for(int i=0; i<50; i++){
+            RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, RawPatternDaoImp.TEST_STOCK_NAME);
+            if(rpm!=null){
+                logger.info(" Parsing " + rpm.getStockName() + rpm.getSeq());
+                PatternMatrix pm = parseRawPatternModel(rpm);
+                savePatternMatrix(pm);
+            }
+        }
     }
 
     @Override
@@ -69,8 +73,8 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         pm.setSellingDate(rpm.getSellingDate());
         pm.setDiffMeanMatrix(diffMeanMatrix);
         pm.setPercentMatrix(percentMatrix);
-        pm.setDiffMeanMatrixNorm(caculateAvgPriceVector(diffMeanMatrix));
-        pm.setPercentMatrixNorm(caculateAvgPriceVector(percentMatrix));
+        pm.setDiffMeanMatrixNorm(caculate6RowNormVector(diffMeanMatrix));
+        pm.setPercentMatrixNorm(caculate6RowNormVector(percentMatrix));
         pm.setIndex();
         return pm;
     }
@@ -152,12 +156,17 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         return mean;
     }
 
-    public static RealVector caculateAvgPriceVector(RealMatrix matrix){
-        RealVector vector = matrix.getRowVector(4);
-        return normalizeVector(vector);
+    public static RealMatrix caculate6RowNormVector(RealMatrix matrix){
+        RealMatrix resultMatrix = MatrixUtils.createRealMatrix(matrix.getData());
+        for(int i=0; i<matrix.getRowDimension(); i++){
+            RealVector vector = matrix.getRowVector(i);
+            RealVector unityNormalizedVector = unityNormalizeVector(vector);
+            resultMatrix.setRowVector(i,unityNormalizedVector);
+        }
+        return resultMatrix;
     }
 
-    public static RealVector normalizeVector(RealVector vector){
+    public static RealVector unityNormalizeVector(RealVector vector){
         double norm = vector.getNorm();
         for(int i=0; i<vector.getMaxIndex(); i++){
             vector.setEntry(i, vector.getEntry(i)/norm);

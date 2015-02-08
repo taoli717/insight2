@@ -33,9 +33,9 @@ public class PatternMatrix {
 
     public double meanValue;
 
-    public RealVector percentMatrixNorm;
+    public RealMatrix percentMatrixNorm;
 
-    public RealVector diffMeanMatrixNorm;
+    public RealMatrix diffMeanMatrixNorm;
 
     public void setIndex(String index) {
         this.index = index;
@@ -45,20 +45,20 @@ public class PatternMatrix {
         return getStockName() + DELIMITER + getSeq();
     }
 
-    public RealVector getDiffMeanMatrixNorm() {
-        return diffMeanMatrixNorm;
-    }
-
-    public void setDiffMeanMatrixNorm(RealVector diffMeanMatrixNorm) {
-        this.diffMeanMatrixNorm = diffMeanMatrixNorm;
-    }
-
-    public RealVector getPercentMatrixNorm() {
+    public RealMatrix getPercentMatrixNorm() {
         return percentMatrixNorm;
     }
 
-    public void setPercentMatrixNorm(RealVector percentMatrixNorm) {
+    public void setPercentMatrixNorm(RealMatrix percentMatrixNorm) {
         this.percentMatrixNorm = percentMatrixNorm;
+    }
+
+    public RealMatrix getDiffMeanMatrixNorm() {
+        return diffMeanMatrixNorm;
+    }
+
+    public void setDiffMeanMatrixNorm(RealMatrix diffMeanMatrixNorm) {
+        this.diffMeanMatrixNorm = diffMeanMatrixNorm;
     }
 
     public void setIndex() {
