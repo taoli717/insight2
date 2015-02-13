@@ -30,16 +30,51 @@ angular.module( 'app' )
                 .then(function (res) {
                     $scope.tempSample = res.data;
                     $scope.tableFlag = true;
+                    $scope.tempBuyingDate = $scope.tempSample.buyingDate;
+                    $scope.tempSellingDate = $scope.tempSample.sellingDate;
                     console.log($scope.tempSample.dailyStocks);
+
                     // TODO add highcharts here
                     angular.forEach($scope.tempSample.dailyStocks, function(item) {
-                        $scope.temp = [];
-                        $scope.temp.push(item.date);
-                        $scope.temp.push(parseFloat(item.open));
-                        $scope.temp.push(parseFloat(item.high));
-                        $scope.temp.push(parseFloat(item.low));
-                        $scope.temp.push(parseFloat(item.close));
-                        console.log($scope.temp);
+                        if( item.date == $scope.tempBuyingDate ) {
+                            // buy point, give it blue color
+                            $scope.temp = {
+                                x: item.date,
+                                open: parseFloat( item.open ),
+                                high: parseFloat( item.high ),
+                                low: parseFloat( item.low ),
+                                close: parseFloat( item.close ),
+                                marker: {
+                                    fillColor: 'blue',
+                                    lineWidth: 3,
+                                    lineColor: "blue" // inherit from series
+                                }
+                            };
+                        } else if ( item.date == $scope.tempSellingDate ) {
+                            // sell point, give it orange color
+                            $scope.temp = {
+                                x: item.date,
+                                open: parseFloat( item.open ),
+                                high: parseFloat( item.high ),
+                                low: parseFloat( item.low ),
+                                close: parseFloat( item.close ),
+                                marker: {
+                                    fillColor: 'orange',
+                                    lineWidth: 3,
+                                    lineColor: "orange" // inherit from series
+                                }
+                            };
+                        } else {
+                            // normal data
+                            $scope.temp = {
+                                x: item.date,
+                                open: parseFloat( item.open ),
+                                high: parseFloat( item.high ),
+                                low: parseFloat( item.low ),
+                                close: parseFloat( item.close )
+                            };
+                        }
+                        //console.log($scope.temp);
                         $scope.chartData.push($scope.temp);
                     });
                     console.log($scope.chartData);
