@@ -2,17 +2,16 @@
  * Created by Ken on 2/11/2015.
  */
 angular.module( 'app' )
-    .controller( 'stockCtrl', [ '$scope', '$http', function ( $scope, $http ) {
+    .controller( 'stockCtrl', [ '$scope', '$http', 'GetLiveStockService', function ( $scope, $http, GetLiveStockService ) {
 
+        // init variable
         $scope.chartData = [];
-
         $scope.tableFlag = false;
-
         $scope.scopeSelectName = 'AA';  // stock name
-
         $scope.scopeSelectStockSeq = 0; // stock seq
 
-        $scope.scopeGetDataURL = "";
+        var testService = GetLiveStockService.strTest( 'stock page' );
+        console.log ( testService );
 
         $scope.hideTable = function() {
             $scope.tableFlag = false;
@@ -22,19 +21,13 @@ angular.module( 'app' )
 
             $scope.chartData = [];
 
-            $scope.scopeGetDataURL = '/api/rawPattern/' + $scope.scopeSelectName + '/' + $scope.scopeSelectStockSeq;
-
-            $http
-                //AA stock name, 5 pattern index - remove me
-                .get( $scope.scopeGetDataURL )
-                .then(function (res) {
+            GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName, $scope.scopeSelectStockSeq )
+                .then( function ( res ) {
                     $scope.tempSample = res.data;
                     $scope.tableFlag = true;
                     $scope.tempBuyingDate = $scope.tempSample.buyingDate;
                     $scope.tempSellingDate = $scope.tempSample.sellingDate;
-                    console.log($scope.tempSample.dailyStocks);
 
-                    // TODO add highcharts here
                     angular.forEach($scope.tempSample.dailyStocks, function(item) {
                         if( item.date == $scope.tempBuyingDate ) {
                             // buy point, give it blue color
@@ -74,10 +67,8 @@ angular.module( 'app' )
                                 close: parseFloat( item.close )
                             };
                         }
-                        //console.log($scope.temp);
                         $scope.chartData.push($scope.temp);
                     });
-                    console.log($scope.chartData);
 
                     // Draw High charts
                     $('#chartContainer').highcharts('StockChart', {
@@ -95,7 +86,7 @@ angular.module( 'app' )
                             liveRedraw: false
                         },
                         title: {
-                            text: 'AAPL history by the minute from 1998 to 2011'
+                            text: $scope.scopeSelectName + ' stock history'
                         },
                         subtitle: {
                             text: 'Displaying 1.7 million data points in Highcharts Stock by async server loading'
@@ -140,7 +131,10 @@ angular.module( 'app' )
                             }
                         }]
                     });
-                });
+                }, function ( error ) {
+                    // error
+                    alert ( 'no data from back end: ' + error);
+            });
         };
         // end of stock controller
     }]);

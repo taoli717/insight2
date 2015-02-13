@@ -2,36 +2,29 @@
  * Created by Ken on 2/11/2015.
  */
 angular.module('app')
-    .controller('homeCtrl', ['$scope', '$http', function ( $scope, $http ) {
+    .controller('homeCtrl', ['$scope', '$http', 'GetLiveStockService', function ( $scope, $http, GetLiveStockService ) {
 
+        var testService = GetLiveStockService.strTest( 'homepage' );
+        console.log ( testService );
+        // init variable
         $scope.tableFlag = false;
-
         $scope.scopeSelectName = 'AA';  // stock name
-
         $scope.scopeSelectStockSeq = 0; // stock seq
-
-        $scope.scopeGetDataURL = "";
 
         $scope.hideTable = function() {
             $scope.tableFlag = false;
         };
 
         $scope.getSampleData = function() {
-
-            $scope.scopeGetDataURL = '/api/rawPattern/' + $scope.scopeSelectName + '/' + $scope.scopeSelectStockSeq;
-
-            //AA stock name, 5 pattern index - remove me
-            //$http.get('/api/rawPattern/AA/5')
-            $http.get( $scope.scopeGetDataURL )
-                .then(function(res) {
-                    $scope.tempSample = res.data;
+            GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName, $scope.scopeSelectStockSeq )
+                .then ( function ( returned ) {
+                    // success
+                    $scope.tempSample = returned.data;
                     $scope.tableFlag = true;
-                    /*                                $scope.dailyStockArray = [];
-                     angular.forEach($scope.tempSample, function(item) {
-                     $scope.dailyStockArray.push(item);
-                     });
-                     console.log($scope.dailyStockArray);*/
-                });
+                }, function ( error ) {
+                    // error
+                    alert('no data come back');
+            });
         };
         // end of home controller
     }]);
