@@ -5,18 +5,21 @@ angular.module( 'app' )
     .controller( 'stockCtrl', [ '$scope', '$http', 'GetLiveStockService', function ( $scope, $http, GetLiveStockService ) {
 
         // init variable
-        $scope.chartData = [];
-        $scope.tableFlag = false;
-        $scope.scopeSelectName = 'AA';  // stock name
-        $scope.scopeSelectStockSeq = 0; // stock seq
-
-        var testChartData = [];
+        $scope.chartData_1 = [];
+        $scope.tableFlag_1 = false;
+        $scope.chartData_2 = [];
+        $scope.tableFlag_2 = false;
+        $scope.scopeSelectName_1 = 'AA';  // stock name
+        $scope.scopeSelectStockSeq_1 = 0; // stock seq
+        $scope.scopeSelectName_2 = 'AA';  // stock name
+        $scope.scopeSelectStockSeq_2 = 0; // stock seq
 
         var testService = GetLiveStockService.strTest( 'stock page' );
         console.log ( testService );
 
         $scope.hideTable = function() {
-            $scope.tableFlag = false;
+            $scope.tableFlag_1 = false;
+            $scope.tableFlag_2 = false;
         };
 
         // find the buy point and sell point
@@ -68,7 +71,7 @@ angular.module( 'app' )
         };
 
         // draw the chart
-        var drawCharts = function ( containerId, chartData_1, chartName ) {
+        var drawCharts = function ( containerId, chartData, chartName ) {
             $( containerId ).highcharts('StockChart', {
                 chart : {
                     type: 'candlestick',
@@ -77,7 +80,7 @@ angular.module( 'app' )
                 navigator : {
                     adaptToUpdatedData: false,
                     series : {
-                        data : chartData_1
+                        data : chartData
                     }
                 },
                 scrollbar: {
@@ -119,7 +122,7 @@ angular.module( 'app' )
                     floor: 0
                 },
                 series : [{
-                    data : chartData_1,
+                    data : chartData,
                     dataGrouping: {
                         enabled: false
                     }
@@ -130,28 +133,42 @@ angular.module( 'app' )
         // click the get data button
         $scope.getSampleData = function() {
 
-            $scope.chartData = [];
+            $scope.chartData_1 = [];
+            $scope.chartData_2 = [];
 
-            testChartData = [];
-
-            GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName, $scope.scopeSelectStockSeq )
+            // first chart
+            GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName_1, $scope.scopeSelectStockSeq_1 )
                 .then( function ( res ) {
-                    $scope.tempSample = res.data;
-                    $scope.tableFlag = true;
+                    $scope.tempSample_1 = res.data;
+                    $scope.tableFlag_1 = true;
 
-                    $scope.chartData = findBuySellPoint( $scope.tempSample.dailyStocks, $scope.tempSample.buyingDate, $scope.tempSample.sellingDate);
+                    $scope.chartData_1 = findBuySellPoint( $scope.tempSample_1.dailyStocks, $scope.tempSample_1.buyingDate, $scope.tempSample_1.sellingDate);
 
                     var containerId_1 = '#chartContainer_1';
-                    var containerId_2 = '#chartContainer_2';
-                    var stockName_1 = 'AA';
 
-                    drawCharts( containerId_1, $scope.chartData, stockName_1 );
-                    drawCharts( containerId_2, $scope.chartData, stockName_1 );
+                    drawCharts( containerId_1, $scope.chartData_1, $scope.scopeSelectName_1 );
 
                 }, function ( error ) {
                     // error
                     alert ( 'no data from back end: ' + error);
             });
+
+            // second chart
+            GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName_2, $scope.scopeSelectStockSeq_2 )
+                .then( function ( res ) {
+                    $scope.tempSample_2 = res.data;
+                    $scope.tableFlag_2 = true;
+
+                    $scope.chartData_2 = findBuySellPoint( $scope.tempSample_2.dailyStocks, $scope.tempSample_2.buyingDate, $scope.tempSample_2.sellingDate);
+
+                    var containerId_2 = '#chartContainer_2';
+
+                    drawCharts( containerId_2, $scope.chartData_2, $scope.scopeSelectName_2 );
+
+                }, function ( error ) {
+                    // error
+                    alert ( 'no data from back end: ' + error);
+                })
         };
         // end of stock controller
     }]);
