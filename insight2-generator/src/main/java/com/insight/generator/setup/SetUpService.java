@@ -1,4 +1,4 @@
-package com.insight.generator.init;
+package com.insight.generator.setup;
 
 /**
  * Created by PC on 1/11/2015.

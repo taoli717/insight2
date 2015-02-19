@@ -1,11 +1,11 @@
 package com.insight.generator.config;
 
 import com.insight.generator.dao.*;
-import com.insight.generator.init.SetUpService;
+import com.insight.generator.setup.SetUpService;
 import com.insight.generator.parser.MarketItOnDemandStockParser;
 import com.insight.generator.parser.StockParser;
 import com.insight.generator.service.StockParserService;
-import com.insight.generator.init.SetUpServiceImpl;
+import com.insight.generator.setup.SetUpServiceImpl;
 import com.insight.generator.service.StockDataGeneratorService;
 import com.insight.generator.service.StockDataGeneratorServiceImpl;
 import com.insight.generator.service.StockParserServiceImpl;

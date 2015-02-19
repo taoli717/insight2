@@ -1,4 +1,4 @@
-package com.insight.generator.init;
+package com.insight.generator.setup;
 
 import com.insight.generator.dao.SetUpDao;
 import org.springframework.beans.factory.annotation.Autowired;

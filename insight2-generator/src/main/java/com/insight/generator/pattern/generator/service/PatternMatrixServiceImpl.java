@@ -1,5 +1,6 @@
 package com.insight.generator.pattern.generator.service;
 
+import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.RawPatternDao;
 import com.insight.generator.dao.RawPatternDaoImp;
 import com.insight.generator.model.DailyStockModel;
@@ -7,6 +8,7 @@ import com.insight.generator.model.RawPatternModel;
 import com.insight.generator.pattern.generator.dao.PatternMatrixDao;
 import com.insight.generator.pattern.generator.model.PatternMatrix;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
@@ -34,15 +36,24 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     @PostConstruct
     public void parse() throws Exception {
-        for(int i=0; i<50; i++){
-            RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, RawPatternDaoImp.TEST_STOCK_NAME);
-            if(rpm!=null){
-                logger.info(" Parsing " + rpm.getStockName() + rpm.getSeq());
+/**/    StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        for(String stockName : TestStockName.ALL_STOCK_NAME){
+            int i = 0;
+            RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, stockName);
+            if(rpm!=null && rpm.getStockName()!=null){
+                logger.info(" Parsing " + rpm.getStockName());
+            }
+            while(rpm!=null && rpm.getStockName()!= null){
                 PatternMatrix pm = parseRawPatternModel(rpm);
                 savePatternMatrix(pm);
+                rpm = (RawPatternModel) rawPatternDao.load(++i, stockName);
             }
+            logger.info(" total " + i);
         }
-    }
+        stopWatch.stop();
+        logger.info("time used: " + stopWatch);
+}
 
     @Override
     public PatternMatrix parseRawPatternModel(RawPatternModel rpm) throws Exception {

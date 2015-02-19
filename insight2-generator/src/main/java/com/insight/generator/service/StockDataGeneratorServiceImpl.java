@@ -2,7 +2,7 @@ package com.insight.generator.service;
 
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.StockDao;
-import com.insight.generator.init.SetUpService;
+import com.insight.generator.setup.SetUpService;
 import com.insight.generator.model.StockModel;
 import com.insight.generator.retriever.MarkItOnDemondPriceRetriever;
 import com.insight.generator.retriever.PriceRetriever;

@@ -2,7 +2,7 @@ package com.insight.generator.service;
 
 import com.insight.generator.dao.RawPatternDao;
 import com.insight.generator.dao.StockDao;
-import com.insight.generator.init.SetUpService;
+import com.insight.generator.setup.SetUpService;
 import com.insight.generator.model.RawPatternModel;
 import com.insight.generator.model.DailyStockModel;
 import com.insight.generator.model.StockModel;

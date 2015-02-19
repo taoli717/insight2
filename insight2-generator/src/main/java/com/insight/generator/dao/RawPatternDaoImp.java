@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * Created by PC on 11/29/2014.
  */
@@ -90,7 +92,11 @@ public class RawPatternDaoImp implements RawPatternDao {
         }
         Query query = new Query();
         query.addCriteria(Criteria.where("seq").is(seqIndex));
-        RawPatternModel dbSm = (RawPatternModel) mongoOperation.find(query, RawPatternModel.class, tableName).get(0);
+        List<RawPatternModel> list =  mongoOperation.find(query, RawPatternModel.class, tableName);
+        RawPatternModel dbSm = null;
+        if(list!=null && list.size()!= 0){
+            dbSm = list.get(0);
+        }
         return dbSm;
     }
 }
