@@ -36,7 +36,7 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     @PostConstruct
     public void parse() throws Exception {
-/**/    StopWatch stopWatch = new StopWatch();
+/*    StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         for(String stockName : TestStockName.ALL_STOCK_NAME){
             int i = 0;
@@ -53,6 +53,9 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         }
         stopWatch.stop();
         logger.info("time used: " + stopWatch);
+        */
+
+
 }
 
     @Override
