@@ -18,5 +18,10 @@ angular.module('app', ['ui.router'])
             url: '/devPage',
             templateUrl: '/resources/views/devPage.html',
             controller: 'devPageCtrl'
+        })
+        .state('3DPage', {
+            url: '/3DPage',
+            templateUrl: '/resources/views/3DPage.html',
+            controller: '3DPageCtrl'
         });
 }]);

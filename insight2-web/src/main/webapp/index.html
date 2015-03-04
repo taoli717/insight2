@@ -11,11 +11,13 @@
     <script src="/resources/openSource/angular-1.2.28/angular.js"></script>
     <script src="/resources/openSource/angular-ui-router-0.2.13/angular-ui-router.js"></script>
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
     <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
     <script src="/resources/js/app.js"></script>
     <script src="/resources/js/services/getLiveStockService.js"></script>
     <script src="/resources/js/controllers/homeCtrl.js"></script>
     <script src="/resources/js/controllers/stockCtrl.js"></script>
+    <script src="/resources/js/controllers/3DPageCtrl.js"></script>
     <script src="/resources/js/controllers/devPageCtrl.js"></script>
 </head>
 <body ng-app="app">
@@ -27,6 +29,7 @@
         <ul class="nav navbar-nav">
             <li><a ui-sref="home">Home</a></li>
             <li><a ui-sref="stock">Stock</a></li>
+            <li><a ui-sref="3DPage">3D chart</a></li>
             <li><a ui-sref="devPage">DevPage</a></li>
         </ul>
     </nav>
