@@ -13,6 +13,7 @@ angular.module( 'app' )
         $scope.scopeSelectStockSeq_1 = 0; // stock seq
         $scope.scopeSelectName_2 = 'AA';  // stock name
         $scope.scopeSelectStockSeq_2 = 0; // stock seq
+        var tempStock;
 
         var testService = GetLiveStockService.strTest( 'stock page' );
         console.log ( testService );
@@ -24,7 +25,7 @@ angular.module( 'app' )
 
         // find the buy point and sell point
         var findBuySellPoint = function ( dailyStocks, buyPoint, sellPoint ) {
-            var tempStock = [];
+            tempStock = [];
             var tempData = "";
             angular.forEach( dailyStocks, function ( item ) {
                 if( item.date == buyPoint ) {
