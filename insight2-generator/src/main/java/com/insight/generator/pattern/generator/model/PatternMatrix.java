@@ -37,12 +37,12 @@ public class PatternMatrix {
 
     public RealMatrix diffMeanMatrixNorm;
 
-    public void setIndex(String index) {
-        this.index = index;
+    public String getIndex() {
+        return getStockName() + DELIMITER + buyingDate.getTime();
     }
 
-    public String getIndex() {
-        return getStockName() + DELIMITER + getSeq();
+    public void setIndex() {
+        this.index = getStockName() + DELIMITER + buyingDate.getTime();
     }
 
     public RealMatrix getPercentMatrixNorm() {
@@ -61,9 +61,6 @@ public class PatternMatrix {
         this.diffMeanMatrixNorm = diffMeanMatrixNorm;
     }
 
-    public void setIndex() {
-        this.index = getStockName() + DELIMITER + getSeq();
-    }
 
     public String getStockName() {
         return stockName;

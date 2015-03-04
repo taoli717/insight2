@@ -8,9 +8,11 @@ import org.apache.commons.math3.linear.RealMatrix;
  */
 public interface PatternMatrixDao {
 
-    RealMatrix get(String index);
+    PatternMatrix get(String index);
 
-    RealMatrix get(String code, long id);
+    PatternMatrix get(String code, long id);
+
+    PatternMatrix get(long seq);
 
     void save(PatternMatrix matrix);
 

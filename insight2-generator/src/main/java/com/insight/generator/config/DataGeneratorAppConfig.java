@@ -1,6 +1,11 @@
 package com.insight.generator.config;
 
 import com.insight.generator.dao.*;
+import com.insight.generator.matching.dao.PatternCosineSimilarityDao;
+import com.insight.generator.matching.dao.PatternCosineSimilarityDaoImpl;
+import com.insight.generator.matching.model.PatternCosineSimilarity;
+import com.insight.generator.matching.service.PatternCosineSimilarityService;
+import com.insight.generator.matching.service.PatternCosineSimilarityServiceImpl;
 import com.insight.generator.setup.SetUpService;
 import com.insight.generator.parser.MarketItOnDemandStockParser;
 import com.insight.generator.parser.StockParser;
@@ -76,4 +81,17 @@ public class DataGeneratorAppConfig {
         PatternMatrixService patternMatrixService = new PatternMatrixServiceImpl();
         return patternMatrixService;
     }
+
+    @Bean
+    public PatternCosineSimilarityService patternCosineSimilarityService(){
+        PatternCosineSimilarityService patternCosineSimilarityService = new PatternCosineSimilarityServiceImpl();
+        return patternCosineSimilarityService;
+    }
+
+    @Bean
+    PatternCosineSimilarityDao patternCosineSimilarityDao(){
+        PatternCosineSimilarityDao patternCosineSimilarityDao = new PatternCosineSimilarityDaoImpl();
+        return patternCosineSimilarityDao;
+    }
+
 }

@@ -18,19 +18,27 @@ public class PatternMatrixDaoImpl implements PatternMatrixDao {
     private MongoOperations mongoOperation;
 
     @Override
-    public RealMatrix get(String index) {
+    public PatternMatrix get(String index) {
         Query query = new Query();
         query.addCriteria(Criteria.where("index").is(index));
-        RealMatrix pm = (RealMatrix) mongoOperation.findOne(query, PatternMatrix.class);
+        PatternMatrix pm = (PatternMatrix) mongoOperation.findOne(query, PatternMatrix.class);
         return pm;
     }
 
     @Override
-    public RealMatrix get(String code, long id) {
+    public PatternMatrix get(String code, long id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("code").is(code));
         query.addCriteria(Criteria.where("id").is(id));
-        RealMatrix pm = (RealMatrix) mongoOperation.findOne(query, PatternMatrix.class);
+        PatternMatrix pm = (PatternMatrix) mongoOperation.findOne(query, PatternMatrix.class);
+        return pm;
+    }
+
+    @Override
+    public PatternMatrix get(long seq) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("seq").is(seq));
+        PatternMatrix pm = (PatternMatrix) mongoOperation.findOne(query, PatternMatrix.class);
         return pm;
     }
 
