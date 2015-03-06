@@ -35,7 +35,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
 
     @PostConstruct
     public void postContruct(){
-/**/        for(long i=0l; ; i++){
+/*        for(long i=0l; ; i++){
             PatternMatrix pm = patternMatrixDao.get(i);
             if(pm == null){
                 break;
@@ -74,6 +74,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                 patternCosineSimilarityDao.save(pcs);
             }
         }
+        */
     }
 
     @Override
