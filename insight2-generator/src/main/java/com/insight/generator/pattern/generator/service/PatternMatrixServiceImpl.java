@@ -36,9 +36,11 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     @PostConstruct
     public void parse() throws Exception {
-/*        StopWatch stopWatch = new StopWatch();
+/*       StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        for(String stockName : TestStockName.ALL_STOCK_NAME){
+        //for(String stockName : TestStockName.ALL_STOCK_NAME){
+            //for testing only, only looking at one stock
+            String stockName = "DDD";
             int i = 0;
             RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, stockName);
             if(rpm!=null && rpm.getStockName()!=null){
@@ -50,10 +52,11 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
                 rpm = (RawPatternModel) rawPatternDao.load(++i, stockName);
             }
             logger.info(" total " + i);
-        }
+        //}
         stopWatch.stop();
-        logger.info("time used: " + stopWatch);*/
-}
+        logger.info("time used: " + stopWatch);
+        */
+    }
 
     @Override
     public PatternMatrix parseRawPatternModel(RawPatternModel rpm) throws Exception {
@@ -152,7 +155,8 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
             if(i==0){
                 result.add(1D);
             }else{
-                result.add(list.get(i)/list.get(i-1));
+                Double resultValue = list.get(i)/list.get(i-1);
+                result.add((resultValue-1)*100);
             }
         }
         return result;
