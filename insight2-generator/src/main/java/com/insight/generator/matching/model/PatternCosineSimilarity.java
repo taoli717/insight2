@@ -26,7 +26,7 @@ public class PatternCosineSimilarity {
 
     public Date sellingDate;
 
-    public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map>> cosineValues;
+    public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosineValues;
 
     public String getIndex() {
         return getStockName() + DELIMITER + buyingDate.getTime();
@@ -70,11 +70,11 @@ public class PatternCosineSimilarity {
         this.sellingDate = sellingDate;
     }
 
-    public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map>> getCosineValues() {
+    public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> getCosineValues() {
         return cosineValues;
     }
 
-    public void setCosineValues(Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map>> cosineValues) {
+    public void setCosineValues(Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosineValues) {
         this.cosineValues = cosineValues;
     }
 }

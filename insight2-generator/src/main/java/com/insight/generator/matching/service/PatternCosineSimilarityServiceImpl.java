@@ -10,8 +10,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Created by PC on 3/3/2015.
@@ -32,7 +35,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
 
     @PostConstruct
     public void postContruct(){
-/*        for(long i=0l; ; i++){
+/**/        for(long i=0l; ; i++){
             PatternMatrix pm = patternMatrixDao.get(i);
             if(pm == null){
                 break;
@@ -51,15 +54,31 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                 pcs = this.compare(pm, pm2, pcs);
             }
             if(pcs != null){
+                Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosines = pcs.getCosineValues();
+                Stream<Map.Entry<String, Map<PatternType, Map<Integer, Double>>>> st = cosines.entrySet().stream();
+                LinkedHashMap<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> temp = new LinkedHashMap<>();
+                st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.DIFF_MEAN).get(0),e1.getValue().get(PatternType.DIFF_MEAN).get(0)))
+                        .forEach(e -> temp.put(e.getKey(), e.getValue()));
+                LinkedHashMap<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> result = new LinkedHashMap<>();
+                int size = 0;
+                int limit = 50;
+                for(Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> entry : temp.entrySet()){
+                    if(size>=limit){
+                        break;
+                    }
+                    result.put(entry.getKey(),entry.getValue());
+                    size++;
+                }
+                pcs.setCosineValues(result);
                 logger.info(pm.index + " stored ");
                 patternCosineSimilarityDao.save(pcs);
             }
-        }*/
+        }
     }
 
     @Override
     public PatternCosineSimilarity compare(PatternMatrix patternMatrix, PatternMatrix patternMatrix2, PatternCosineSimilarity pcs) {
-        Map<PatternType, Map> resultMap = new HashMap<>();
+        Map<PatternType, Map<Integer, Double>> resultMap = new HashMap<>();
         Map<Integer, Double> diffMeanMap = new HashMap<>();
         Map<Integer, Double> percentMap = new HashMap<>();
         for(int i=0; i<=5; i++){
@@ -86,7 +105,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
         }
 
         // public void setCosineValues(Map<String, Map<String, Map>> cosineValues)
-        Map<String, Map<PatternType, Map>> cosineValue = pcs.getCosineValues();
+        Map<String, Map<PatternType, Map<Integer, Double>>> cosineValue = pcs.getCosineValues();
         if(cosineValue == null){
             cosineValue = new HashMap<>();
         }
