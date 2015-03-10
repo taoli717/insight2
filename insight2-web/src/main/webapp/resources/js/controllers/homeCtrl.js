@@ -7,9 +7,10 @@ angular.module('app')
         var testService = GetLiveStockService.strTest( 'homepage' );
         console.log ( testService );
         // init variable
+        $scope.tempSample = [];
         $scope.tableFlag = false;
-        $scope.scopeSelectName = 'AA';  // stock name
-        $scope.scopeSelectStockSeq = 0; // stock seq
+        $scope.scopeSelectName;  // stock name
+        $scope.scopeSelectStockSeq; // stock seq
 
         $scope.hideTable = function() {
             $scope.tableFlag = false;
@@ -19,6 +20,10 @@ angular.module('app')
             GetLiveStockService.getStockByNameSeq( $scope.scopeSelectName, $scope.scopeSelectStockSeq )
                 .then ( function ( returned ) {
                     // success
+                    if(returned.data.length == 0) {
+                        alert("returned empty data");
+                    }
+                    $scope.tempSample = [];
                     $scope.tempSample = returned.data;
                     $scope.tableFlag = true;
                 }, function ( error ) {
