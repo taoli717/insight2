@@ -4,6 +4,7 @@ import com.insight.generator.matching.service.PatternCosineSimilarityServiceImpl
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 @Document(collection = "pattern_cosine_similarity")
 public class PatternCosineSimilarity {
 
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
     public static final String DELIMITER = "*#*";
 
     @Id
@@ -29,15 +31,13 @@ public class PatternCosineSimilarity {
     public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosineValues;
 
     public String getIndex() {
-        return getStockName() + DELIMITER + buyingDate.getTime();
+        return getStockName() + DELIMITER + sdf.format(buyingDate);
     }
 
     public void setIndex() {
-        this.index = getStockName() + DELIMITER + buyingDate.getTime();
+        this.index = getStockName() + DELIMITER + sdf.format(buyingDate);
     }
-    public void setIndex(String index) {
-        this.index = index;
-    }
+
     public String getStockName() {
         return stockName;
     }

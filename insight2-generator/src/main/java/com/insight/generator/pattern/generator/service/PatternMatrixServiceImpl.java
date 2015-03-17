@@ -34,9 +34,9 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     private static final Logger logger = Logger.getLogger(PatternMatrixServiceImpl.class);
 
-    @PostConstruct
+    //@PostConstruct
     public void parse() throws Exception {
-/*       StopWatch stopWatch = new StopWatch();
+       StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         //for(String stockName : TestStockName.ALL_STOCK_NAME){
             //for testing only, only looking at one stock
@@ -55,7 +55,6 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         //}
         stopWatch.stop();
         logger.info("time used: " + stopWatch);
-        */
     }
 
     @Override
@@ -143,8 +142,10 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
         double mean = getMean(list);
         List<Double> result = new LinkedList<>();
+        Double max = Collections.max(list);
+        Double min = Collections.min(list);
         for(Double data : list){
-            result.add((data - mean)/mean);
+            result.add((data - mean)/(max-min));
         }
         return result;
     }
@@ -156,7 +157,7 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
                 result.add(1D);
             }else{
                 Double resultValue = list.get(i)/list.get(i-1);
-                result.add((resultValue-1)*100);
+                result.add((resultValue-1)*10);
             }
         }
         return result;

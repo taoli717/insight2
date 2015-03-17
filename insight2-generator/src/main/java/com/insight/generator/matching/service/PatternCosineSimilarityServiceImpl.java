@@ -10,10 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -33,9 +30,9 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
 
     private static final Logger logger = Logger.getLogger(PatternCosineSimilarityServiceImpl.class);
 
-    @PostConstruct
+    //@PostConstruct
     public void postContruct(){
-/*        for(long i=0l; ; i++){
+        for(long i=0l; i<2; i++){
             PatternMatrix pm = patternMatrixDao.get(i);
             if(pm == null){
                 break;
@@ -56,17 +53,28 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
             if(pcs != null){
                 Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosines = pcs.getCosineValues();
                 Stream<Map.Entry<String, Map<PatternType, Map<Integer, Double>>>> st = cosines.entrySet().stream();
-                LinkedHashMap<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> temp = new LinkedHashMap<>();
+                LinkedList<Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>>> percentList = new LinkedList<>();
+                st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.PERCENT).get(0),e1.getValue().get(PatternType.PERCENT).get(0)))
+                        .forEach(e -> percentList.add(new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue())));
+                LinkedList<Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>>> meanList = new LinkedList<>();
+                st = cosines.entrySet().stream();
                 st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.DIFF_MEAN).get(0),e1.getValue().get(PatternType.DIFF_MEAN).get(0)))
-                        .forEach(e -> temp.put(e.getKey(), e.getValue()));
+                        .forEach(e -> meanList.add(new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue())));
                 LinkedHashMap<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> result = new LinkedHashMap<>();
                 int size = 0;
                 int limit = 50;
-                for(Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> entry : temp.entrySet()){
-                    if(size>=limit){
+                for(int k=0; k<limit; k++){
+
+                    Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> entry = null;
+                    if(k%2==0){
+                        entry = percentList.get(k);
+                    }else{
+                        entry = meanList.get(k);
+                    }
+                    if(entry == null){
                         break;
                     }
-                    result.put(entry.getKey(),entry.getValue());
+                    result.put(entry.getKey(), entry.getValue());
                     size++;
                 }
                 pcs.setCosineValues(result);
@@ -74,7 +82,6 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                 patternCosineSimilarityDao.save(pcs);
             }
         }
-        */
     }
 
     @Override
@@ -98,11 +105,11 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
 
         if(pcs == null){
             pcs = new PatternCosineSimilarity();
-            pcs.setIndex(patternMatrix.getIndex());
-            pcs.setBuyingDate(patternMatrix.getBuyingDate());
             pcs.setStockName(patternMatrix.getStockName());
+            pcs.setBuyingDate(patternMatrix.getBuyingDate());
             pcs.setSellingDate(patternMatrix.getSellingDate());
             pcs.setSeq(patternMatrix.getSeq());
+            pcs.setIndex();
         }
 
         // public void setCosineValues(Map<String, Map<String, Map>> cosineValues)
@@ -110,7 +117,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
         if(cosineValue == null){
             cosineValue = new HashMap<>();
         }
-        cosineValue.put(patternMatrix2.getIndex(), resultMap);
+        cosineValue.put(patternMatrix2.getStockName() + PatternCosineSimilarity.DELIMITER + patternMatrix2.getSeq(), resultMap);
         pcs.setCosineValues(cosineValue);
         return pcs;
     }
