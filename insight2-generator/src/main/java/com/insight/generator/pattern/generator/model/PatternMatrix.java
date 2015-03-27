@@ -28,12 +28,9 @@ public class PatternMatrix {
 
     public RealMatrix diffMeanMatrix;
 
-    public RealMatrix percentMatrix;
     public double fistDayPrice;
 
     public double meanValue;
-
-    public RealMatrix percentMatrixNorm;
 
     public RealMatrix diffMeanMatrixNorm;
 
@@ -43,14 +40,6 @@ public class PatternMatrix {
 
     public void setIndex() {
         this.index = getStockName() + DELIMITER + buyingDate.getTime();
-    }
-
-    public RealMatrix getPercentMatrixNorm() {
-        return percentMatrixNorm;
-    }
-
-    public void setPercentMatrixNorm(RealMatrix percentMatrixNorm) {
-        this.percentMatrixNorm = percentMatrixNorm;
     }
 
     public RealMatrix getDiffMeanMatrixNorm() {
@@ -100,14 +89,6 @@ public class PatternMatrix {
 
     public void setDiffMeanMatrix(RealMatrix diffMeanMatrix) {
         this.diffMeanMatrix = diffMeanMatrix;
-    }
-
-    public RealMatrix getPercentMatrix() {
-        return percentMatrix;
-    }
-
-    public void setPercentMatrix(RealMatrix percentMatrix) {
-        this.percentMatrix = percentMatrix;
     }
 
     public double getFistDayPrice() {

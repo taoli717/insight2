@@ -16,4 +16,6 @@ public interface PatternMatrixDao {
 
     void save(PatternMatrix matrix);
 
+    public PatternMatrix getNext();
+
 }

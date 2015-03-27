@@ -1,5 +1,6 @@
 package com.insight.generator.service;
 
+import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.RawPatternDao;
 import com.insight.generator.dao.StockDao;
 import com.insight.generator.setup.SetUpService;
@@ -33,6 +34,8 @@ public class StockParserServiceImpl implements StockParserService{
     @Autowired
     StockDao stockDao;
 
+    public static final int PATTER_LENGTH = 64;
+
     @PostConstruct
     public void init() throws Exception{
         logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
@@ -41,7 +44,7 @@ public class StockParserServiceImpl implements StockParserService{
                 this.parse();
                 setUpService.setUpSuccess();
             }catch(Exception e){
-                logger.error("Initial install failed");
+                logger.error("Initial install failed", e);
             }
         }
     }
@@ -56,35 +59,38 @@ public class StockParserServiceImpl implements StockParserService{
         int buyingDayIndex = 120;
         int holdingPeriod = 20;
         int mimumIgonreSize = 180;
-        while(sm!=null){
-            if(stockDao.isDBExist(sm.stockName)){
-                sm = (StockModel) stockDao.loadNext();
+
+        for(String stockName : TestStockName.ALL_STOCK_NAME) {
+            if (stockDao.isDBExist(stockName)) {
+                //sm = (StockModel) stockDao.loadNext();
+                sm = stockDao.load(stockName);
                 logger.info(sm.stockName + " skipped");
                 continue;
             }
             System.out.println("processing: " + total);
             total++;
-            LinkedHashMap<Date,DailyStockModel> dmMap = sm.getDailyStocks();
+            LinkedHashMap<Date, DailyStockModel> dmMap = sm.getDailyStocks();
             // ignore newly released com
             Set<Date> dmKeySet = dmMap.keySet();
             LinkedList<Date> dateList = new LinkedList<Date>(dmKeySet);
-            if(dmMap.size()>mimumIgonreSize){
-                for(int j = buyingDayIndex; j<dateList.size()-60; j++){
+            if (dmMap.size() > mimumIgonreSize) {
+                //TODO maybe it can be reorganized
+                for (int j = buyingDayIndex; j < dateList.size() - PATTER_LENGTH; j++) {
                     //don't consider the first three month after IPA
                     Collections.sort(dateList);
                     DailyStockModel dsm = dmMap.get(dateList.get(j));
                     Double buyingPrice = takeDailyAverage(dsm);
-                    for(int i=0; i<holdingPeriod; i++){
-                        Date sellingDay = dateList.get( i + j);
+                    for (int i = 0; i < holdingPeriod; i++) {
+                        Date sellingDay = dateList.get(i + j);
                         DailyStockModel tempDsm = dmMap.get(sellingDay);
                         Double currentPrice = takeDailyAverage(tempDsm);
-                        if(currentPrice> buyingPrice*(1+targetPect)){
+                        if (currentPrice > buyingPrice * (1 + targetPect)) {
                             RawPatternModel rpm = new RawPatternModel();
                             rpm.setBuyingDate(dateList.get(j));
                             rpm.setSellingDate(sellingDay);
                             rpm.setStockName(sm.getStockName());
                             //System.out.println("j: " + j);
-                            List rpmStockDateList = (List) dateList.subList(j -60, j + i +20);
+                            List rpmStockDateList = (List) dateList.subList(j - PATTER_LENGTH, j + i + holdingPeriod);
                             rpm.setDailyStocks(generateRPMDailyStockModel(rpmStockDateList, sm));
                             rawPatternDao.save(rpm);
                             break;
@@ -92,9 +98,9 @@ public class StockParserServiceImpl implements StockParserService{
                     }
                 }
             }
-            sm = (StockModel) stockDao.loadNext();
+
+            System.out.println("done  " + total);
         }
-        System.out.println("done  " + total);
     }
 
     public static Double takeDailyAverage(DailyStockModel dsm){

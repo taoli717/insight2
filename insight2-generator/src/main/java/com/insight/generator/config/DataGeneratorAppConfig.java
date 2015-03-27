@@ -1,5 +1,11 @@
 package com.insight.generator.config;
 
+import com.insight.generator.aggregate.dao.AggregateDao;
+import com.insight.generator.aggregate.dao.AggregateDaoImpl;
+import com.insight.generator.aggregate.dao.PrototypeDao;
+import com.insight.generator.aggregate.dao.PrototypeDaoImpl;
+import com.insight.generator.aggregate.service.PatternAggregateService;
+import com.insight.generator.aggregate.service.PatternAggregateServiceImpl;
 import com.insight.generator.dao.*;
 import com.insight.generator.matching.dao.PatternCosineSimilarityDao;
 import com.insight.generator.matching.dao.PatternCosineSimilarityDaoImpl;
@@ -92,6 +98,24 @@ public class DataGeneratorAppConfig {
     PatternCosineSimilarityDao patternCosineSimilarityDao(){
         PatternCosineSimilarityDao patternCosineSimilarityDao = new PatternCosineSimilarityDaoImpl();
         return patternCosineSimilarityDao;
+    }
+
+    @Bean
+    AggregateDao aggregateDao(){
+        AggregateDao aggregateDao = new AggregateDaoImpl();
+        return aggregateDao;
+    }
+
+    @Bean
+    PatternAggregateService patternAggregateService(){
+        PatternAggregateService patternAggregateService = new PatternAggregateServiceImpl();
+        return patternAggregateService;
+    }
+
+    @Bean
+    PrototypeDao prototypeDao(){
+        PrototypeDao prototypeDao = new PrototypeDaoImpl();
+        return prototypeDao;
     }
 
 }

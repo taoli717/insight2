@@ -15,6 +15,7 @@ import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +25,7 @@ import java.util.*;
  * Created by PC on 2/1/2015.
  */
 @Service
+@DependsOn("stockParserServiceImpl")
 public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     @Autowired
@@ -34,13 +36,14 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     private static final Logger logger = Logger.getLogger(PatternMatrixServiceImpl.class);
 
-    //@PostConstruct
+    @PostConstruct
     public void parse() throws Exception {
        StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         //for(String stockName : TestStockName.ALL_STOCK_NAME){
             //for testing only, only looking at one stock
-            String stockName = "DDD";
+
+        for(String stockName : TestStockName.ALL_STOCK_NAME){
             int i = 0;
             RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, stockName);
             if(rpm!=null && rpm.getStockName()!=null){
@@ -52,9 +55,10 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
                 rpm = (RawPatternModel) rawPatternDao.load(++i, stockName);
             }
             logger.info(" total " + i);
-        //}
-        stopWatch.stop();
-        logger.info("time used: " + stopWatch);
+            //}
+            stopWatch.stop();
+            logger.info("time used: " + stopWatch);
+        }
     }
 
     @Override
@@ -78,16 +82,16 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         }
 
         RealMatrix diffMeanMatrix = generateDiffMeanMatrix(highs, lows, opens, closes, vloumns);
-        RealMatrix percentMatrix = generatePercentMatrix(highs, lows, opens, closes, vloumns);
+        //RealMatrix percentMatrix = generatePercentMatrix(highs, lows, opens, closes, vloumns);
         PatternMatrix pm = new PatternMatrix();
         pm.setSeq(rpm.getSeq());
         pm.setStockName(rpm.getStockName());
         pm.setBuyingDate(rpm.getBuyingDate());
         pm.setSellingDate(rpm.getSellingDate());
         pm.setDiffMeanMatrix(diffMeanMatrix);
-        pm.setPercentMatrix(percentMatrix);
+        //pm.setPercentMatrix(percentMatrix);
         pm.setDiffMeanMatrixNorm(caculate6RowNormVector(diffMeanMatrix));
-        pm.setPercentMatrixNorm(caculate6RowNormVector(percentMatrix));
+        //pm.setPercentMatrixNorm(caculate6RowNormVector(percentMatrix));
         pm.setIndex();
         return pm;
     }

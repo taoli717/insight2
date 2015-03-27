@@ -4,10 +4,13 @@ import com.insight.generator.matching.dao.PatternCosineSimilarityDao;
 import com.insight.generator.matching.model.PatternCosineSimilarity;
 import com.insight.generator.pattern.generator.dao.PatternMatrixDao;
 import com.insight.generator.pattern.generator.model.PatternMatrix;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -16,6 +19,8 @@ import java.util.stream.Stream;
 /**
  * Created by PC on 3/3/2015.
  */
+@Service
+//@DependsOn("patternMatrixService")
 public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilarityService {
 
     @Autowired
@@ -30,9 +35,9 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
 
     private static final Logger logger = Logger.getLogger(PatternCosineSimilarityServiceImpl.class);
 
-    //@PostConstruct
+    @PostConstruct
     public void postContruct(){
-        for(long i=0l; i<2; i++){
+        for(long i=0l; i<200; i++){
             PatternMatrix pm = patternMatrixDao.get(i);
             if(pm == null){
                 break;
@@ -54,8 +59,8 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                 Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosines = pcs.getCosineValues();
                 Stream<Map.Entry<String, Map<PatternType, Map<Integer, Double>>>> st = cosines.entrySet().stream();
                 LinkedList<Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>>> percentList = new LinkedList<>();
-                st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.PERCENT).get(0),e1.getValue().get(PatternType.PERCENT).get(0)))
-                        .forEach(e -> percentList.add(new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue())));
+                //st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.PERCENT).get(0),e1.getValue().get(PatternType.PERCENT).get(0)))
+                //        .forEach(e -> percentList.add(new AbstractMap.SimpleEntry<>(e.getKey(), e.getValue())));
                 LinkedList<Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>>> meanList = new LinkedList<>();
                 st = cosines.entrySet().stream();
                 st.sorted((e1, e2) -> Double.compare(e2.getValue().get(PatternType.DIFF_MEAN).get(0),e1.getValue().get(PatternType.DIFF_MEAN).get(0)))
@@ -66,18 +71,24 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                 for(int k=0; k<limit; k++){
 
                     Map.Entry<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> entry = null;
-                    if(k%2==0){
+
+/*                    if(k%2==0){
                         entry = percentList.get(k);
                     }else{
                         entry = meanList.get(k);
-                    }
+                    }*/
+
+                    entry = meanList.get(k);
                     if(entry == null){
                         break;
                     }
+
                     result.put(entry.getKey(), entry.getValue());
                     size++;
                 }
                 pcs.setCosineValues(result);
+                Double[] normMeanPrice =  ArrayUtils.toObject(pm.diffMeanMatrixNorm.getRow(5));
+                pcs.setAverageNormPriceAbsoluteTotal(computeAbsoluteMean(Arrays.asList(normMeanPrice)));
                 logger.info(pm.index + " stored ");
                 patternCosineSimilarityDao.save(pcs);
             }
@@ -88,20 +99,20 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
     public PatternCosineSimilarity compare(PatternMatrix patternMatrix, PatternMatrix patternMatrix2, PatternCosineSimilarity pcs) {
         Map<PatternType, Map<Integer, Double>> resultMap = new HashMap<>();
         Map<Integer, Double> diffMeanMap = new HashMap<>();
-        Map<Integer, Double> percentMap = new HashMap<>();
+        //Map<Integer, Double> percentMap = new HashMap<>();
         for(int i=0; i<=5; i++){
             RealVector diffMeanRV = new ArrayRealVector(patternMatrix.getDiffMeanMatrix().getRow(i));
             RealVector diffMeanRV2 = new ArrayRealVector(patternMatrix2.getDiffMeanMatrix().getRow(i));
             Double meanCosineDiff = diffMeanRV.cosine(diffMeanRV2);
             diffMeanMap.put(i, meanCosineDiff);
 
-            RealVector percentRV = new ArrayRealVector(patternMatrix.getPercentMatrix().getRow(i));
+/*            RealVector percentRV = new ArrayRealVector(patternMatrix.getPercentMatrix().getRow(i));
             RealVector percentRV2 = new ArrayRealVector(patternMatrix2.getPercentMatrix().getRow(i));
             Double percentCosineDiff = percentRV.cosine(percentRV2);
-            percentMap.put(i, percentCosineDiff);
+            percentMap.put(i, percentCosineDiff);*/
         }
         resultMap.put(PatternType.DIFF_MEAN, diffMeanMap);
-        resultMap.put(PatternType.PERCENT, percentMap);
+        //resultMap.put(PatternType.PERCENT, percentMap);
 
         if(pcs == null){
             pcs = new PatternCosineSimilarity();
@@ -120,5 +131,11 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
         cosineValue.put(patternMatrix2.getStockName() + PatternCosineSimilarity.DELIMITER + patternMatrix2.getSeq(), resultMap);
         pcs.setCosineValues(cosineValue);
         return pcs;
+    }
+
+    public static Double computeAbsoluteMean(Collection<Double> values){
+        return values.stream().reduce(0d,(a,b)->{
+            return Math.abs(a) + Math.abs(b);
+        });
     }
 }

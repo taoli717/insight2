@@ -30,6 +30,7 @@
         <apache.common.math.version>3.4.1</apache.common.math.version>
         <jackson.core.version>2.5.0</jackson.core.version>
         <codehaus.jackson.version>1.9.13</codehaus.jackson.version>
+        <google.guava.version>18.0</google.guava.version>
     </properties>
     <build>
         <plugins>
@@ -156,5 +157,11 @@
             <artifactId>json-simple</artifactId>
             <version>${json.simple.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${google.guava.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

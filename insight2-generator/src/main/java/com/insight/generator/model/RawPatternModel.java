@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 /**
  * Created by PC on 10/28/2014.
  */
-@Document(collection = "raw_stock_model")
+@Document(collection = "raw_pattern_model")
 public class RawPatternModel implements Serializable{
 
     public RawPatternModel(){}

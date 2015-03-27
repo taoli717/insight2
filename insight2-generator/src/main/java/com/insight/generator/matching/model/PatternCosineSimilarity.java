@@ -28,6 +28,16 @@ public class PatternCosineSimilarity {
 
     public Date sellingDate;
 
+    public Double getAverageNormPriceAbsoluteTotal() {
+        return averageNormPriceAbsoluteTotal;
+    }
+
+    public void setAverageNormPriceAbsoluteTotal(Double averageNormPriceAbsoluteTotal) {
+        this.averageNormPriceAbsoluteTotal = averageNormPriceAbsoluteTotal;
+    }
+
+    public Double averageNormPriceAbsoluteTotal;
+
     public Map<String, Map<PatternCosineSimilarityServiceImpl.PatternType, Map<Integer, Double>>> cosineValues;
 
     public String getIndex() {

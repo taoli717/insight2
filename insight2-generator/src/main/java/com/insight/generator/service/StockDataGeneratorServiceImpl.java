@@ -28,16 +28,16 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
     @Autowired
     SetUpService setUpService;
 
-    @PostConstruct
-    public void init() throws Exception {
+   @PostConstruct
+    public void init() {
         logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
-        if(!setUpService.isSetUp()){
+/*        if(!setUpService.isSetUp()){
             try{
                 this.generate();
             }catch(Exception e){
                 logger.error("Initial installation failed");
             }
-        }
+        }*/
     }
 
     @Override
@@ -89,5 +89,9 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
             listString = listString + "\"" + s + "\", ";
         }
         logger.info(listString);
+    }
+
+    public static void main(String[] args){
+        System.out.println("test");
     }
 }
