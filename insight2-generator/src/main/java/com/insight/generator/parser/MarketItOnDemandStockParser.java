@@ -1,7 +1,7 @@
 package com.insight.generator.parser;
 
-import com.insight.generator.model.DailyStockModel;
-import com.insight.generator.model.StockModel;
+import com.insight.model.DailyStockModel;
+import com.insight.model.StockModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;

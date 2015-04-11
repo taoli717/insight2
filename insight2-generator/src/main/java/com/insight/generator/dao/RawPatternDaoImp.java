@@ -1,6 +1,7 @@
 package com.insight.generator.dao;
 
-import com.insight.generator.model.RawPatternModel;
+import com.insight.model.Constants;
+import com.insight.model.RawPatternModel;
 import com.mongodb.DBCursor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class RawPatternDaoImp implements RawPatternDao {
     public boolean save(RawPatternModel rpm){
         boolean isSaved = true;
         try{
-            //TODO remove if block eventually
+/*            //TODO remove if block eventually
             if(!localCaced){
                 Query query = new Query();
                 query.addCriteria(Criteria.where("seq").is(1));
@@ -49,16 +50,16 @@ public class RawPatternDaoImp implements RawPatternDao {
                     logger.error(e);
                 }
                 if(dbSm==null){
-                    rpm.setSeq(1);
+                    //rpm.setSeq(1l);
                     mongoOperation.save(rpm);
                 }else{
                     localCaced = true;
                 }
             }
             //TODO make sure stock code is unique
-            long i = getNextSequenceId(rpm.getStockName());
-            rpm.setSeq(i);
-            mongoOperation.save(rpm, rpm.getStockName());
+            long i = getNextSequenceId(rpm.getStockName());*/
+            //rpm.setSeq(i);
+            mongoOperation.save(rpm);
         }catch (Exception e){
             logger.error(e);
             isSaved = false;
@@ -86,13 +87,10 @@ public class RawPatternDaoImp implements RawPatternDao {
 
     //TODO need to rewrite it to loop all tables
     @Override
-    public RawPatternModel load(int seqIndex, String tableName) {
-        if(tableName == null || StringUtils.isEmpty(tableName)){
-            tableName = TEST_STOCK_NAME;
-        }
+    public RawPatternModel load(long seqIndex, String tableName) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("seq").is(seqIndex));
-        List<RawPatternModel> list =  mongoOperation.find(query, RawPatternModel.class, tableName);
+        query.addCriteria(Criteria.where("_id").is(tableName + Constants.DELIMITER + seqIndex));
+        List<RawPatternModel> list =  mongoOperation.find(query, RawPatternModel.class);
         RawPatternModel dbSm = null;
         if(list!=null && list.size()!= 0){
             dbSm = list.get(0);

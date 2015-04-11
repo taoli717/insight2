@@ -1,7 +1,7 @@
 package com.insight.web.controller;
 
         import com.insight.generator.dao.RawPatternDao;
-        import com.insight.generator.model.RawPatternModel;
+        import com.insight.model.RawPatternModel;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.PathVariable;
         import org.springframework.web.bind.annotation.RequestMapping;

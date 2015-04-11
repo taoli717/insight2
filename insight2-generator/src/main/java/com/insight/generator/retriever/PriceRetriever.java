@@ -1,7 +1,7 @@
 package com.insight.generator.retriever;
 
 
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 
 /**
  * Created by PC on 11/16/2014.

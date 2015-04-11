@@ -1,7 +1,7 @@
 package com.insight.generator.dao;
 
 
-import com.insight.generator.model.RawPatternModel;
+import com.insight.model.RawPatternModel;
 
 /**
  * Created by PC on 11/29/2014.
@@ -11,5 +11,5 @@ public interface RawPatternDao {
 
     long getNextSequenceId(String tableName) throws Exception;
 
-    Object load(int seqIndex, String tableName);
+    Object load(long seqIndex, String tableName);
 }

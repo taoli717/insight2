@@ -1,6 +1,6 @@
 package com.insight.generator.retriever;
 
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 import com.insight.generator.parser.StockParser;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

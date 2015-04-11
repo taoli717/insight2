@@ -3,7 +3,7 @@ package com.insight.generator.service;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.StockDao;
 import com.insight.generator.setup.SetUpService;
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 import com.insight.generator.retriever.MarkItOnDemondPriceRetriever;
 import com.insight.generator.retriever.PriceRetriever;
 import org.apache.log4j.Logger;
@@ -28,7 +28,7 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
     @Autowired
     SetUpService setUpService;
 
-   @PostConstruct
+   //@PostConstruct
     public void init() {
         logger.info("setUpService.isSetUp(): " + setUpService.isSetUp());
 /*        if(!setUpService.isSetUp()){

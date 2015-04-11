@@ -1,7 +1,7 @@
 package com.insight.generator.dao;
 
 import com.mongodb.DBCursor;
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;

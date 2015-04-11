@@ -1,6 +1,6 @@
 package com.insight.generator.dao;
 
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 
 /**
  * Created by PC on 11/7/2014.

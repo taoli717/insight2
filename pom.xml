@@ -13,6 +13,8 @@
     <modules>
         <module>insight2-web</module>
         <module>insight2-generator</module>
+        <module>insight2-pattern-generator</module>
+        <module>model</module>
     </modules>
 
     <properties>

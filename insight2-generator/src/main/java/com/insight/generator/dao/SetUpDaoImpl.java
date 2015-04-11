@@ -1,6 +1,6 @@
 package com.insight.generator.dao;
 
-import com.insight.generator.model.SetUpModel;
+import com.insight.model.SetUpModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;

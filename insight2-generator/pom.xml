@@ -10,7 +10,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>insight.generator</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.insight</groupId>
+            <artifactId>insight.generator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.insight</groupId>
+            <artifactId>insight.model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

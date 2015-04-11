@@ -1,6 +1,6 @@
 package com.insight.generator.parser;
 
-import com.insight.generator.model.StockModel;
+import com.insight.model.StockModel;
 
 /**
  * Created by PC on 10/28/2014.

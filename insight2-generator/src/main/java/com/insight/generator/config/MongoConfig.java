@@ -14,7 +14,7 @@ public class MongoConfig {
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
 
-		MongoClient mongo = new MongoClient("127.0.0.1");
+		MongoClient mongo = new MongoClient("127.0.0.1:27018");
 		SimpleMongoDbFactory simpleMongoDbFactory = new SimpleMongoDbFactory(mongo, "meemee");
 		return simpleMongoDbFactory;
 
@@ -29,5 +29,17 @@ public class MongoConfig {
         return mongoTemplate;
 
         }
+/*
+
+	@Bean(name="mongoPatternTemplate")
+	public MongoTemplate mongoPatternTemplate() throws Exception {
+
+		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+		// show error, should off on production to speed up performance
+		mongoTemplate.setWriteConcern(WriteConcern.SAFE);
+		return mongoTemplate;
+
+	}
+*/
 
 }
