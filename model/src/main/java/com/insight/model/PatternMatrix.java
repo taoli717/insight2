@@ -26,12 +26,38 @@ public class PatternMatrix {
 
     public RealMatrix diffMeanMatrix;
 
-    public double fistDayPrice;
-
-    public double meanValue;
-
     public RealMatrix diffMeanMatrixNorm;
 
+    public Double max;
+
+    public Double min;
+
+    public Double mean;
+
+
+    public Double getMax() {
+        return max;
+    }
+
+    public void setMax(Double max) {
+        this.max = max;
+    }
+
+    public Double getMin() {
+        return min;
+    }
+
+    public void setMin(Double min) {
+        this.min = min;
+    }
+
+    public Double getMean() {
+        return mean;
+    }
+
+    public void setMean(Double mean) {
+        this.mean = mean;
+    }
     public String getIndex() {
         return getStockName() + Constants.DELIMITER + getSeq();
     }
@@ -86,21 +112,5 @@ public class PatternMatrix {
 
     public void setDiffMeanMatrix(RealMatrix diffMeanMatrix) {
         this.diffMeanMatrix = diffMeanMatrix;
-    }
-
-    public double getFistDayPrice() {
-        return fistDayPrice;
-    }
-
-    public void setFistDayPrice(double fistDayPrice) {
-        this.fistDayPrice = fistDayPrice;
-    }
-
-    public double getMeanValue() {
-        return meanValue;
-    }
-
-    public void setMeanValue(double meanValue) {
-        this.meanValue = meanValue;
     }
 }

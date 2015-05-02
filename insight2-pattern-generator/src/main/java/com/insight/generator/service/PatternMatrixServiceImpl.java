@@ -69,7 +69,7 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         List<Double> vloumns = new ArrayList<>();
         Set<Date> dateSet = models.keySet();
         for(Date date : dateSet){
-            if(date.compareTo(rpm.getBuyingDate())<0){
+            if(date.compareTo(rpm.getBuyingDate())<=0){
                 DailyStockModel dailyStockModel = models.get(date);
                 highs.add(Double.parseDouble(dailyStockModel.getHigh()));
                 lows.add(Double.parseDouble(dailyStockModel.getLow()));
@@ -92,9 +92,24 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         pm.setDiffMeanMatrixNorm(caculate6RowNormVector(diffMeanMatrix));
         pm.setSeq(seq);
         pm.setIndex();
+        pm.setMean(getMeanFromArray(diffMeanMatrix.getRow(5)));
+        pm.setMax(getMaxFromArray(diffMeanMatrix.getRow(5)));
+        pm.setMin(getMinFromArray(diffMeanMatrix.getRow(5)));
         return pm;
     }
 
+    public static Double getMeanFromArray(double[] doubles){
+        List<Double> list = Arrays.asList(ArrayUtils.toObject(doubles));
+        return list.stream().mapToDouble(i->i).average().getAsDouble();
+    }
+    public static Double getMaxFromArray(double[] doubles){
+        List<Double> list = Arrays.asList(ArrayUtils.toObject(doubles));
+        return list.stream().mapToDouble(i ->i).max().getAsDouble();
+    }
+    public static Double getMinFromArray(double[] doubles){
+        List<Double> list = Arrays.asList(ArrayUtils.toObject(doubles));
+        return list.stream().mapToDouble(i ->i).min().getAsDouble();
+    }
     @Override
     public void savePatternMatrix(PatternMatrix pm) {
         patternMatrixDao.save(pm);

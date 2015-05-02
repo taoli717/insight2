@@ -5,4 +5,5 @@ package com.insight.generator.service;
  */
 public interface StockDataGeneratorService {
     void generate() throws Exception;
+    void synchronizeStockData();
 }

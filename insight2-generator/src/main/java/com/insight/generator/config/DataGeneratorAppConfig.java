@@ -1,6 +1,9 @@
 package com.insight.generator.config;
 
 import com.insight.generator.dao.*;
+import com.insight.generator.retriever.markItOnDemond.MarkItOnDemondPriceRetriever;
+import com.insight.generator.retriever.PriceRetriever;
+import com.insight.generator.retriever.yahoo.YahooPriceRetriever;
 import com.insight.generator.setup.SetUpService;
 import com.insight.generator.parser.MarketItOnDemandStockParser;
 import com.insight.generator.parser.StockParser;
@@ -61,5 +64,16 @@ public class DataGeneratorAppConfig {
         return stockParser;
     }
 
+    @Bean
+    public PriceRetriever priceRetriever(){
+        PriceRetriever priceRetriever = new MarkItOnDemondPriceRetriever();
+        return priceRetriever;
+    }
+
+    @Bean
+    public  PriceRetriever yahooPriceRetriever(){
+        PriceRetriever yahooPriceRetriever = new YahooPriceRetriever();
+        return yahooPriceRetriever;
+    }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.util.CloseableIterator;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,6 +55,21 @@ public class PrototypeDaoImpl implements PrototypeDao {
                 mongoOperation.updateFirst(query1, update, PatternPrototype.class);
             }
         }
+    }
+
+    @Override
+    public List<PatternPrototype> filter(int sizeThreshold) {
+        List<PatternPrototype> result = new LinkedList<>();
+        Query query = new Query();
+        CloseableIterator<PatternPrototype> pps =  mongoOperation.stream(query, PatternPrototype.class);
+        while(pps.hasNext()){
+            PatternPrototype pp = pps.next();
+            //logger.info(pp.getId() + " size: " + pp.getMembers().size());
+            if(pp.getMembers().size() > sizeThreshold){
+                result.add(pp);
+            }
+        }
+        return result;
     }
 
 }

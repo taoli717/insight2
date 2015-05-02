@@ -1,4 +1,4 @@
-package com.insight.generator.retriever;
+package com.insight.generator.retriever.markItOnDemond;
 
 /**
  * Created by PC on 11/8/2014.

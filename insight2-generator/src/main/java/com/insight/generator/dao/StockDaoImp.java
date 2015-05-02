@@ -1,5 +1,6 @@
 package com.insight.generator.dao;
 
+import com.insight.model.PatternPrototype;
 import com.mongodb.DBCursor;
 import com.insight.model.StockModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.util.CloseableIterator;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,9 +28,13 @@ public class StockDaoImp implements StockDao{
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    CloseableIterator<StockModel> stockModelCloseableIterator;
+
     @Override
-    public boolean save(StockModel sm, Boolean autoIncrement) {
-        Query query = new Query();
+    public boolean save(StockModel sm) {
+        mongoOperation.save(sm);
+        return true;
+/*        Query query = new Query();
         query.addCriteria(Criteria.where("stockName").is(sm.getStockName()));
         StockModel dbSm = mongoOperation.findOne(query, StockModel.class);
         if(dbSm == null){
@@ -45,7 +51,7 @@ public class StockDaoImp implements StockDao{
             update.set("dailyStocks", sm.getDailyStocks());
             mongoOperation.updateFirst(query, update, StockModel.class);
         }
-        return true;
+        return true;*/
     }
 
     @Override
@@ -103,4 +109,17 @@ public class StockDaoImp implements StockDao{
         return mongoOperation.collectionExists(DBName);
     }
 
+    @Override
+    public StockModel getNextStock(){
+        if(stockModelCloseableIterator == null){
+            stockModelCloseableIterator = mongoOperation.stream(new Query(), StockModel.class);
+        }
+        if(stockModelCloseableIterator.hasNext()){
+            return stockModelCloseableIterator.next();
+        }else{
+            stockModelCloseableIterator.close();
+            return null;
+        }
+
+    }
 }

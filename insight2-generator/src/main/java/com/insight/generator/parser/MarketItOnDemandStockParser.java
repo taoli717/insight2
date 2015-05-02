@@ -53,8 +53,8 @@ public class MarketItOnDemandStockParser implements StockParser{
             dsm.setLow(lowArray.get(i).toString());
             dsm.setOpen(openArray.get(i).toString());
             dsm.setVolume(volumeArray.get(i).toString());
-            String stringDate = datesArray.get(i).toString();
-            String sd = stringDate.substring(0,stringDate.indexOf("T"));
+            String dataString = datesArray.get(i).toString();
+            String sd = dataString.substring(0,dataString.indexOf("T"));
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date date =  df.parse(sd);
             dsm.setDate(date);

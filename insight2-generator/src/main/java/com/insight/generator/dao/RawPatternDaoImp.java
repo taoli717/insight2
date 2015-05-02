@@ -47,7 +47,7 @@ public class RawPatternDaoImp implements RawPatternDao {
                 try{
                     dbSm = mongoOperation.findOne(query, RawPatternModel.class);
                 }catch (Exception e){
-                    logger.error(e);
+                    logger.error(e.getMessage(), e);
                 }
                 if(dbSm==null){
                     //rpm.setSeq(1l);
@@ -61,7 +61,7 @@ public class RawPatternDaoImp implements RawPatternDao {
             //rpm.setSeq(i);
             mongoOperation.save(rpm);
         }catch (Exception e){
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             isSaved = false;
         }
         return isSaved;
