@@ -34,8 +34,8 @@ public class PatternAggregateServiceImpl implements PatternAggregateService{
     private PrototypeDao prototypeDao;
 
     private static final Logger logger = Logger.getLogger(PatternAggregateServiceImpl.class);
-    private static final int MASK_SIZE = 8;
-    private static final int PATTERN_LENGTH = 64;
+    public static final int MASK_SIZE = 8;
+    public static final int PATTERN_LENGTH = 64;
     Map<String, Integer> cacheResult = new HashMap<>();
 
     //@PostConstruct
@@ -124,6 +124,7 @@ public class PatternAggregateServiceImpl implements PatternAggregateService{
             members.add(aggregation);
             pp.setMembers(members);
         }
+        pp.setSize(pp.getMembers().size());
         Integer count = cacheResult.getOrDefault(patternSignature.toString(), 0);
         cacheResult.put(patternSignature.toString(), ++count);
         prototypeDao.save(pp);

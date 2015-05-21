@@ -11,5 +11,5 @@ public interface PrototypeDao {
     public PatternPrototype get(String id);
     public void save(PatternPrototype pp);
     void cleanAndReduce(int sizeThreshold );
-    List<PatternPrototype> filter(int sizeThreshold);
+    List<PatternPrototype> filter(long sizeThreshold);
 }

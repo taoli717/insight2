@@ -27,7 +27,6 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
     @Autowired
     private PatternCosineSimilarityDao patternCosineSimilarityDao;
 
-
     @Autowired
     PatternMatrixDao patternMatrixDao;
 
@@ -130,6 +129,14 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
         pcs.setCosineValues(cosineValue);
         return pcs;
     }
+
+    public double compare(PatternMatrix patternMatrix, PatternMatrix patternMatrix2) {
+        RealVector diffMeanRV = new ArrayRealVector(patternMatrix.getDiffMeanMatrix().getRow(5));
+        RealVector diffMeanRV2 = new ArrayRealVector(patternMatrix2.getDiffMeanMatrix().getRow(5));
+        Double meanCosineDiff = diffMeanRV.cosine(diffMeanRV2);
+        return meanCosineDiff;
+    }
+
 
     public static Double computeAbsoluteMean(Collection<Double> values){
         return values.stream().reduce(0d,(a,b)->{

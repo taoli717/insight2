@@ -26,6 +26,10 @@ public class PatternCosineSimilarity {
 
     public Date sellingDate;
 
+    public Double averageNormPriceAbsoluteTotal;
+
+    public Map<String, Map<PatternType, Map<Integer, Double>>> cosineValues;
+
     public Double getAverageNormPriceAbsoluteTotal() {
         return averageNormPriceAbsoluteTotal;
     }
@@ -33,10 +37,6 @@ public class PatternCosineSimilarity {
     public void setAverageNormPriceAbsoluteTotal(Double averageNormPriceAbsoluteTotal) {
         this.averageNormPriceAbsoluteTotal = averageNormPriceAbsoluteTotal;
     }
-
-    public Double averageNormPriceAbsoluteTotal;
-
-    public Map<String, Map<PatternType, Map<Integer, Double>>> cosineValues;
 
     public String getIndex() {
         return getStockName() + Constants.DELIMITER + sdf.format(buyingDate);

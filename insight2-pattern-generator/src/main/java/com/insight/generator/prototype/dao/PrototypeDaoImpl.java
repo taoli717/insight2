@@ -58,7 +58,7 @@ public class PrototypeDaoImpl implements PrototypeDao {
     }
 
     @Override
-    public List<PatternPrototype> filter(int sizeThreshold) {
+    public List<PatternPrototype> filter(long sizeThreshold) {
         List<PatternPrototype> result = new LinkedList<>();
         Query query = new Query();
         CloseableIterator<PatternPrototype> pps =  mongoOperation.stream(query, PatternPrototype.class);
@@ -66,6 +66,7 @@ public class PrototypeDaoImpl implements PrototypeDao {
             PatternPrototype pp = pps.next();
             //logger.info(pp.getId() + " size: " + pp.getMembers().size());
             if(pp.getMembers().size() > sizeThreshold){
+                pp.setSize(pp.getMembers().size());
                 result.add(pp);
             }
         }
