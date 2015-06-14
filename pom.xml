@@ -33,6 +33,8 @@
         <jackson.core.version>2.5.0</jackson.core.version>
         <codehaus.jackson.version>1.9.13</codehaus.jackson.version>
         <google.guava.version>18.0</google.guava.version>
+        <ehcache.version>2.9.0</ehcache.version>
+        <spring.context.version>4.1.4.RELEASE</spring.context.version>
     </properties>
     <build>
         <plugins>
@@ -164,6 +166,15 @@
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.context.version}</version>
+        </dependency>
     </dependencies>
 </project>

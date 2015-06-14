@@ -39,8 +39,6 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
     public void parse() throws Exception {
        StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        //for(String stockName : TestStockName.ALL_STOCK_NAME){
-
         for(String stockName : TestStockName.ALL_STOCK_NAME){
             long i = 0;
             RawPatternModel rpm = (RawPatternModel) rawPatternDao.load(i, stockName);
@@ -89,7 +87,7 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
         pm.setBuyingDate(rpm.getBuyingDate());
         pm.setSellingDate(rpm.getSellingDate());
         pm.setDiffMeanMatrix(diffMeanMatrix);
-        pm.setDiffMeanMatrixNorm(caculate6RowNormVector(diffMeanMatrix));
+        //pm.setDiffMeanMatrixNorm(caculate6RowNormVector(diffMeanMatrix));
         pm.setSeq(seq);
         pm.setIndex();
         pm.setMean(getMeanFromArray(diffMeanMatrix.getRow(5)));

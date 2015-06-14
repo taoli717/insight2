@@ -52,23 +52,27 @@ public class PatternAggregateServiceImpl implements PatternAggregateService{
                 while (pm != null) {
                     Aggregation aggregation = convertPM2Aggregation(pm);
                     updatePrototype(aggregation);
-                    logger.trace(aggregation.getIndex() + " saved");
+                    //logger.trace(aggregation.getIndex() + " saved");
                     pm = patternMatrixDao.get(stockName, index++);
                 }
-                cacheResult.entrySet().stream().sorted((p1, p2) -> {
-                    return p2.getValue().compareTo(p1.getValue());
-                }).forEach(p -> {
-                    logger.info(p.getKey()+ " - " + p.getValue());
-                });
+                logger.info(stockName + " done.");
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
             }
         }
+        cacheResult.entrySet().stream().sorted((p1, p2) -> {
+            return p2.getValue().compareTo(p1.getValue());
+        }).forEach(p -> {
+            if(p.getValue()!=1){
+                logger.info(p.getKey()+ " - " + p.getValue());
+            }
+        });
+        logger.info("================== Prototype generation done. ================");
     }
 
     @Override
     public Aggregation convertPM2Aggregation(PatternMatrix pm){
-        double[] diffMeanAvgRow = pm.diffMeanMatrixNorm.getRow(5);
+        double[] diffMeanAvgRow = pm.getDiffMeanMatrix().getRow(5);
         List<Double> list = Doubles.asList(diffMeanAvgRow);
         ArrayList<Double> diffMeanAvgList = new ArrayList<>();
         diffMeanAvgList.addAll(list);

@@ -26,14 +26,11 @@ public class PatternMatrix {
 
     public RealMatrix diffMeanMatrix;
 
-    public RealMatrix diffMeanMatrixNorm;
-
     public Double max;
 
     public Double min;
 
     public Double mean;
-
 
     public Double getMax() {
         return max;
@@ -64,14 +61,6 @@ public class PatternMatrix {
 
     public void setIndex() {
         this.index = getStockName() + Constants.DELIMITER + getSeq();
-    }
-
-    public RealMatrix getDiffMeanMatrixNorm() {
-        return diffMeanMatrixNorm;
-    }
-
-    public void setDiffMeanMatrixNorm(RealMatrix diffMeanMatrixNorm) {
-        this.diffMeanMatrixNorm = diffMeanMatrixNorm;
     }
 
     public String getStockName() {

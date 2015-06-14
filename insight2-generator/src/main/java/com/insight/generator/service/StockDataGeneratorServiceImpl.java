@@ -48,8 +48,7 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
     @Override
     public void generate() throws Exception {
         //attempt to query 30000 days of history
-        //String[] stocksNames = TestStockName.ALL_STOCK_NAME;
-        String[] stocksNames = {"ECOM", "ONE", "SPB", "REN"};
+        String[] stocksNames = TestStockName.ALL_STOCK_NAME;
         int i = 0;
         //TODO use Stopwatch
         long startTime = System.currentTimeMillis();

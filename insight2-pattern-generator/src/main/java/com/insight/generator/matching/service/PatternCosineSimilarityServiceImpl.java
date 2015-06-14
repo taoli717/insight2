@@ -84,7 +84,7 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
                     size++;
                 }
                 pcs.setCosineValues(result);
-                Double[] normMeanPrice =  ArrayUtils.toObject(pm.diffMeanMatrixNorm.getRow(5));
+                Double[] normMeanPrice =  ArrayUtils.toObject(pm.getDiffMeanMatrix().getRow(5));
                 pcs.setAverageNormPriceAbsoluteTotal(computeAbsoluteMean(Arrays.asList(normMeanPrice)));
                 logger.info(pm.index + " stored ");
                 patternCosineSimilarityDao.save(pcs);
@@ -129,14 +129,21 @@ public class PatternCosineSimilarityServiceImpl implements PatternCosineSimilari
         pcs.setCosineValues(cosineValue);
         return pcs;
     }
-
-    public double compare(PatternMatrix patternMatrix, PatternMatrix patternMatrix2) {
+    @Override
+    public double comparePrice(PatternMatrix patternMatrix, PatternMatrix patternMatrix2) {
         RealVector diffMeanRV = new ArrayRealVector(patternMatrix.getDiffMeanMatrix().getRow(5));
         RealVector diffMeanRV2 = new ArrayRealVector(patternMatrix2.getDiffMeanMatrix().getRow(5));
         Double meanCosineDiff = diffMeanRV.cosine(diffMeanRV2);
         return meanCosineDiff;
     }
 
+    @Override
+    public double compareVolumn(PatternMatrix patternMatrix, PatternMatrix patternMatrix2) {
+        RealVector volumnRV1 = new ArrayRealVector(patternMatrix.getDiffMeanMatrix().getRow(4));
+        RealVector volumnRV2 = new ArrayRealVector(patternMatrix2.getDiffMeanMatrix().getRow(4));
+        Double volumnCosineDiff = volumnRV1.cosine(volumnRV2);
+        return volumnCosineDiff;
+    }
 
     public static Double computeAbsoluteMean(Collection<Double> values){
         return values.stream().reduce(0d,(a,b)->{
