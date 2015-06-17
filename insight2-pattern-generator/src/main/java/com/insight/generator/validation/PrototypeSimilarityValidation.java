@@ -93,6 +93,7 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
         logger.trace(pp.getId());
         ArrayList arrayList = new ArrayList();
         if(pp != null){
+            aggregationLoop:
             for(Aggregation agg : pp.getMembers()){
                 successCount = 0;
                 totalCount = 0;
@@ -109,8 +110,10 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
                                 }
                             }
                         }
-                        if(totalCount>getSamplingPool())
-                            break;
+                        boolean toContinue = toContinue();
+                        if(!toContinue){
+                            break aggregationLoop;
+                        }
                     }catch (Exception e){
                         logger.error("unable to validate", e);
                         logger.error(stockName + " skipped");
@@ -186,5 +189,6 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
         }
         return success;
     }
+
 
 }

@@ -106,7 +106,7 @@ public abstract class AbstractValidation implements Validation, Runnable{
     }
 
     void logDetails(String pmIndex){
-        boolean success = successCount/totalCount > 0.5;
+        boolean success = toContinue();
         if(success){
             logger.info("FinalSuccess: " + pmIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
                     + ", success rate: " + successCount/totalCount + ", total: " + totalCount);
@@ -114,6 +114,25 @@ public abstract class AbstractValidation implements Validation, Runnable{
             logger.info("Aborted: " + pmIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
                     + ", success rate: " + successCount/totalCount + ", total: " + totalCount );
         }
+    }
+
+    public boolean toContinue(){
+        if(totalCount<10){
+            if(successCount/totalCount<0.2){
+                return false;
+            }
+        }else if(totalCount<20){
+            if(successCount/totalCount<0.25){
+                return false;
+            }
+        }else if(totalCount<50){
+            if(successCount/totalCount<0.3){
+                return false;
+            }
+        }else if(successCount/totalCount<0.35){
+            return false;
+        }
+        return true;
     }
 
     public String getPrototype() {
