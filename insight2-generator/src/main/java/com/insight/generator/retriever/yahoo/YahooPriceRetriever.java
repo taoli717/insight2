@@ -45,9 +45,9 @@ public class YahooPriceRetriever implements PriceRetriever{
         try {
             return convert2CSVAndParse(stockName, i);
         } catch (MalformedURLException mue) {
-            logger.error(mue);
+            logger.error(mue.getMessage(), mue);
         } catch (IOException ioe) {
-            logger.error(ioe);
+            logger.error(ioe.getMessage(), ioe);
         } finally {
         }
         return null;
@@ -90,7 +90,7 @@ public class YahooPriceRetriever implements PriceRetriever{
                 dsm.setOpen(record.get(OPEN));
                 dsm.setVolume(record.get(VOLUME));
                 if(Integer.valueOf(record.get(VOLUME))<=0){
-                    logger.error(record.get(VOLUME) + " " + stockName + " " + dsm.getDate());
+                    logger.warn(record.get(VOLUME) + " " + stockName + " " + dsm.getDate());
                     continue;
                 }
                 dailyStockMap.put(date, dsm);
