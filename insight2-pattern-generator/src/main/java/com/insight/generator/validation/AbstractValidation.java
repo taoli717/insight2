@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  * Created by PC on 5/20/2015.
@@ -81,7 +82,9 @@ public abstract class AbstractValidation implements Validation, Runnable{
 
     public Boolean isSuccess(StockModel sm, Date buyingdate){
         Boolean correctMatch = false;
-        LinkedList<Date> dates = new LinkedList<>(sm.getDailyStocks().keySet());
+        LinkedList<Date> dates = new LinkedList<>(sm.getDailyStocks().keySet().stream().sorted((d1,d2)->
+            d1.compareTo(d2)
+        ).collect(Collectors.toList()));
         int buyingIndex = dates.indexOf(buyingdate);
         if(buyingIndex != -1 &&
                 (dates.size()-1) >= (buyingIndex + StockParserServiceImpl.holdingPeriod)){
@@ -91,7 +94,7 @@ public abstract class AbstractValidation implements Validation, Runnable{
             correctMatch = holdingList.stream().filter(a->{
                 Double currentPrice = Double.valueOf(sm.getDailyStocks().get(a).getHigh());
                 if(sellingTarget <= currentPrice){
-                    logger.trace("Success, " + a + ". selling price: " + currentPrice);
+                    logger.info("Success, " + a + " buying price: " + buyingPrice +  ". selling price: " + currentPrice);
                 }
                 return sellingTarget <= currentPrice;
             }).count()>0;

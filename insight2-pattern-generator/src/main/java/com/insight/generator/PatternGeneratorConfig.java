@@ -1,7 +1,6 @@
 package com.insight.generator;
 
-import com.insight.generator.validation.PatternMatrixSimilarityValidation;
-import com.insight.generator.validation.PrototypeSimilarityValidation;
+import com.insight.generator.validation.*;
 import org.springframework.cache.CacheManager;
 import com.insight.generator.aggregate.dao.AggregateDao;
 import com.insight.generator.aggregate.dao.AggregateDaoImpl;
@@ -21,8 +20,6 @@ import com.insight.generator.prototype.service.PrototypeService;
 import com.insight.generator.prototype.service.PrototypeServiceImpl;
 import com.insight.generator.service.PatternMatrixService;
 import com.insight.generator.service.PatternMatrixServiceImpl;
-import com.insight.generator.validation.PrototypeValidation;
-import com.insight.generator.validation.Validation;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -113,9 +110,15 @@ public class PatternGeneratorConfig {
     }
 
     @Bean
+    @Qualifier("PatternMatrixWithDateSimilarityValidation")
+    Validation patternMatrixWithDateSimilarityValidation(){
+        Validation patternMatrixWithDateSimilarityValidation = new PatternMatrixWithDateSimilarityValidation();
+        return patternMatrixWithDateSimilarityValidation;
+    }
+    @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(8);
+        pool.setCorePoolSize(4);
         pool.setMaxPoolSize(100);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;

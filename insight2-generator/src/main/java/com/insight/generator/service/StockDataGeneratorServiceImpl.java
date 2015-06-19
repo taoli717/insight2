@@ -3,6 +3,7 @@ package com.insight.generator.service;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.StockDao;
 import com.insight.generator.setup.SetUpService;
+import com.insight.model.DailyStockModel;
 import com.insight.model.StockModel;
 import com.insight.generator.retriever.PriceRetriever;
 import org.apache.log4j.Logger;
@@ -103,10 +104,10 @@ public class StockDataGeneratorServiceImpl implements StockDataGeneratorService 
             try{
                 latestSm = priceRetriever.sendGet(sm.getStockName(), String.valueOf(dayDiff), sm.getSeq());
                 if(latestSm!=null){
-                    Thread.sleep(2000);
-                    sm.getDailyStocks().putAll(latestSm.getDailyStocks());
+                    sm.setDailyStocks(latestSm.getDailyStocks());
                     stockDao.save(sm);
                     logger.info(sm.getStockName() + " updated");
+                    Thread.sleep(2000);
                 }
             }catch (Exception e){
                 logger.error(e.getMessage(), e);

@@ -1,9 +1,9 @@
 package com.insight.generator.runner.prototpye.validation;
 
-import com.google.common.collect.Sets;
 import com.insight.generator.PatternGeneratorConfig;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.validation.AbstractValidation;
+import com.insight.generator.validation.PatternMatrixWithDateSimilarityValidation;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,24 +15,27 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by PC on 3/31/2015.
  */
-public class PatternMatrixValidationRunner implements InitializingBean {
+public class PatternMatrixWithDateValidationRunner implements InitializingBean {
 
     private static final Logger logger = Logger.getLogger(PatternMatrixValidationRunner.class);
     public static final Set<String> matrixIndexes = new HashSet<>();
-    private static AbstractValidation validation;
+    private static PatternMatrixWithDateSimilarityValidation validation;
     private static ApplicationContext ctx;
     private static ThreadPoolTaskExecutor taskExecutor;
+    private static Set<Date> dates;
 
     @Override
     public void afterPropertiesSet() throws Exception {}
 
     public static void init(){
         String[] matrixIndexArray = {"UIS*#*1748"};
-        logger.info(Arrays.toString(matrixIndexArray));
+        dates = Stream.of("5/15/2015 00:00:00 AM").map(d->getDate(d)).collect(Collectors.toSet());
         matrixIndexes.addAll(Arrays.asList(matrixIndexArray));
     }
 
@@ -66,24 +69,31 @@ public class PatternMatrixValidationRunner implements InitializingBean {
         System.exit(0);
     }
 
-    public static Date getDate(String input) throws ParseException {
-        DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
-        Date date = format.parse(input);
-        return date;
+    public static Date getDate(String input){
+        try{
+            DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+            Date date = format.parse(input);
+            return date;
+        }catch (Exception e){
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     public static void runPatternMatrixValidation(){
         for(String matrixIndex : matrixIndexes){
-            for(double sim=0.2; sim<1; sim+=0.1){
-                validation = (AbstractValidation) ctx.getBean("patternMatrixSimilarityValidation");
+            for(Date date : dates){
+                validation = (PatternMatrixWithDateSimilarityValidation) ctx.getBean("patternMatrixWithDateSimilarityValidation");
                 validation.setSellingTarget(1.10);
                 validation.setPriceSimilarityThreshold(0.90);
-                validation.setVolumeSimilarityThreshold(sim);
+                validation.setVolumeSimilarityThreshold(0.4);
                 validation.setSamplingPool(100000);
                 validation.setPatternMatrixIndex(matrixIndex);
                 validation.setTestStockPool(getStockNames());
+                validation.setDate(date);
                 taskExecutor.execute(validation);
             }
+
         }
     }
 
