@@ -1,9 +1,8 @@
 package com.insight.generator.runner.prototpye.validation;
 
-import com.google.common.collect.Sets;
-import com.insight.generator.PatternGeneratorConfig;
+import com.insight.PatternGeneratorConfig;
 import com.insight.generator.constant.TestStockName;
-import com.insight.generator.validation.AbstractValidation;
+import com.insight.validation.AbstractValidation;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,7 +30,7 @@ public class PatternMatrixValidationRunner implements InitializingBean {
     public void afterPropertiesSet() throws Exception {}
 
     public static void init(){
-        String[] matrixIndexArray = {"UIS*#*1748"};
+        String[] matrixIndexArray = {"CSX*#*415"};
         logger.info(Arrays.toString(matrixIndexArray));
         matrixIndexes.addAll(Arrays.asList(matrixIndexArray));
     }
@@ -66,31 +65,32 @@ public class PatternMatrixValidationRunner implements InitializingBean {
         System.exit(0);
     }
 
+    public static void runPatternMatrixValidation(){
+        for(String matrixIndex : matrixIndexes){
+            //for(double sim=0.2; sim<1; sim+=0.1){
+                validation = (AbstractValidation) ctx.getBean("patternMatrixSimilarityValidation");
+                validation.setSellingTarget(1.10);
+                validation.setPriceSimilarityThreshold(0.90);
+                validation.setVolumeSimilarityThreshold(0.60);
+                validation.setSamplingPool(100000);
+                validation.setPatternMatrixIndex(matrixIndex);
+                validation.setTestStockPool(getStockNames());
+                taskExecutor.execute(validation);
+           // }
+        }
+    }
+
     public static Date getDate(String input) throws ParseException {
         DateFormat format = new SimpleDateFormat("M/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
         Date date = format.parse(input);
         return date;
     }
 
-    public static void runPatternMatrixValidation(){
-        for(String matrixIndex : matrixIndexes){
-            for(double sim=0.2; sim<1; sim+=0.1){
-                validation = (AbstractValidation) ctx.getBean("patternMatrixSimilarityValidation");
-                validation.setSellingTarget(1.10);
-                validation.setPriceSimilarityThreshold(0.90);
-                validation.setVolumeSimilarityThreshold(sim);
-                validation.setSamplingPool(100000);
-                validation.setPatternMatrixIndex(matrixIndex);
-                validation.setTestStockPool(getStockNames());
-                taskExecutor.execute(validation);
-            }
-        }
-    }
-
     public static String[] getStockNames(){
-        int dataPoolDividen = 1;
+/*        int dataPoolDividen = 1;
         String[] stockNames = TestStockName.ALL_STOCK_NAME;
         int endIndex = stockNames.length/dataPoolDividen;
-        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);
+        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);*/
+        return TestStockName.TEST_STOCK_NAME;
     }
 }

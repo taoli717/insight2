@@ -128,7 +128,7 @@ public class PatternAggregateServiceImpl implements PatternAggregateService{
             members.add(aggregation);
             pp.setMembers(members);
         }
-        pp.setSize(pp.getMembers().size());
+        pp.setSize(Long.valueOf(pp.getMembers().size()));
         Integer count = cacheResult.getOrDefault(patternSignature.toString(), 0);
         cacheResult.put(patternSignature.toString(), ++count);
         prototypeDao.save(pp);

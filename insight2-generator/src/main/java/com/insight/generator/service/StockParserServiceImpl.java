@@ -23,7 +23,7 @@ import java.util.*;
 //@DependsOn("stockDataGeneratorService")
 public class StockParserServiceImpl implements StockParserService{
 
-    public static double targetPect = .1;
+    public static double targetPect = .20;
     public static final int PATTERN_LENGTH = 64;
     public static final int buyingDayIndex = 120;
     public static final int holdingPeriod = 20;

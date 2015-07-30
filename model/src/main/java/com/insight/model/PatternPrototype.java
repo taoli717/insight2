@@ -16,7 +16,7 @@ public class PatternPrototype  {
 
     private Set<Aggregation> members;
 
-    private long size;
+    private Long size;
 
     public String getId() {
         return id;
@@ -34,12 +34,12 @@ public class PatternPrototype  {
         this.members = members;
     }
 
-    public long getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
-        this.size = this.members==null ? 0 : this.members.size();
+    public void setSize(Long size) {
+        this.size = this.members==null ? 0l : this.members.size();
     }
 
 }

@@ -47,7 +47,7 @@ public class PrototypeDaoImpl implements PrototypeDao {
             if(pp.getMembers().size() <= sizeThreshold){
                 mongoOperation.remove(pp);
             }else{
-                pp.setSize(pp.getMembers().size());
+                pp.setSize(Long.valueOf(pp.getMembers().size()));
                 Query query1 = new Query();
                 query1.addCriteria(Criteria.where("_id").is(pp.getId()));
                 Update update = new Update();
@@ -66,10 +66,11 @@ public class PrototypeDaoImpl implements PrototypeDao {
             PatternPrototype pp = pps.next();
             //logger.info(pp.getId() + " size: " + pp.getMembers().size());
             if(pp.getMembers().size() > sizeThreshold){
-                pp.setSize(pp.getMembers().size());
+                pp.setSize(Long.valueOf(pp.getMembers().size()));
                 result.add(pp);
             }
         }
+        result.sort((p1,p2) -> p2.getSize().compareTo(p1.getSize()));
         return result;
     }
 

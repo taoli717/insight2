@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 public interface StockDao {
     public boolean save(StockModel sm);
 
-    @Cacheable(value="loadStock", key="#stockName")
     public StockModel load(String stockName);
     public Object loadNext();
     public long getNextSequenceId(String key) throws Exception;

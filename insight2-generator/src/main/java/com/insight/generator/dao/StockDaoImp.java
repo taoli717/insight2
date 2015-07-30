@@ -4,6 +4,7 @@ import com.insight.model.PatternPrototype;
 import com.mongodb.DBCursor;
 import com.insight.model.StockModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -55,6 +56,7 @@ public class StockDaoImp implements StockDao{
     }
 
     @Override
+    @Cacheable(value="loadStock", key="#stockName")
     public StockModel load(String stockName) {
         Query query = new Query();
         query.addCriteria(Criteria.where("stockName").is(stockName));

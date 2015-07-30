@@ -1,7 +1,6 @@
-package com.insight.generator.validation;
+package com.insight.validation;
 
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by PC on 4/12/2015.

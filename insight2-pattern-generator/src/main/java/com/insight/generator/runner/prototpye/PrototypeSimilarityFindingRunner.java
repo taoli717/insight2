@@ -1,16 +1,14 @@
 package com.insight.generator.runner.prototpye;
 
-import com.insight.generator.PatternGeneratorConfig;
+import com.insight.PatternGeneratorConfig;
 import com.insight.generator.aggregate.service.PatternAggregateServiceImpl;
 import com.insight.generator.prototype.service.PrototypeService;
 import com.insight.model.PatternPrototype;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.PrintWriter;
 import java.util.*;
 
 /**

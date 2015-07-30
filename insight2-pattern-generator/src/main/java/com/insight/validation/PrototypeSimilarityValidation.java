@@ -1,4 +1,4 @@
-package com.insight.generator.validation;
+package com.insight.validation;
 
 import com.insight.generator.aggregate.service.PatternAggregateService;
 import com.insight.generator.dao.PatternMatrixDao;
@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @Service
 @Scope("prototype")
-public class PatternMatrixWithDateSimilarityValidation extends AbstractValidation{
+public class PrototypeSimilarityValidation extends AbstractValidation{
 
     @Autowired
     StockParserService stockParserService;
@@ -44,13 +44,11 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
     @Autowired
     PatternMatrixDao patternMatrixDao;
 
-    private static Logger logger = Logger.getLogger(PatternMatrixWithDateSimilarityValidation.class);
-
-    private Date date;
+    private static Logger logger = Logger.getLogger(PrototypeSimilarityValidation.class);
 
     @Override
     public void run() {
-        validatePatternMatrix();
+        validateSignature(null);
     }
 
     // TODO use reactive style
@@ -60,6 +58,45 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
 
     @Override
     public void validateSignature(String prototype){
+        prototype = this.prototype;
+        StockModel sm = null;
+        PatternPrototype pp = prototypeDao.get(prototype);
+        logger.trace(pp.getId());
+        ArrayList arrayList = new ArrayList();
+        if(pp != null){
+            aggregationLoop:
+            for(Aggregation agg : pp.getMembers()){
+                successCount = 0;
+                totalCount = 0;
+                totalTraverseCount = 0l;
+                PatternMatrix pm = patternMatrixDao.get(agg.getIndex());
+                this.setPatternMatrixIndex(agg.getIndex());
+                for(String stockName : getTestStockPool()){
+                    try{
+                        sm = stockDao.load(stockName);
+                        if(sm != null){
+                            for(Date date :  sm.getDailyStocks().keySet()){
+                                totalTraverseCount++;
+                                boolean match = comparePatternMatrix(pm, date, sm);
+                                if(match){
+                                    totalCount++;
+                                }
+                            }
+                        }
+                        boolean toContinue = toContinue();
+                        if(!toContinue){
+                            logDetails(null);
+                            continue aggregationLoop;
+                        }
+                    }catch (Exception e){
+                        logger.error("unable to validate", e);
+                        logger.error(stockName + " skipped");
+                        logger.error("=================================================================================");
+                    }
+                }
+                logDetails(pm.getIndex());
+            }
+        }
     }
 
     @Override
@@ -72,7 +109,9 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
             try{
                 StockModel sm = stockDao.load(stockName);
                 if(sm != null){
-                    comparePatternMatrix(pm, this.date, sm);
+                    for(Date date :  sm.getDailyStocks().keySet()){
+                        comparePatternMatrix(pm, date, sm);
+                    }
                 }
                 if(totalCount>SAMPLING_POOL && successCount/totalCount<0.3){
                     logDetails(pm.getIndex());
@@ -104,8 +143,8 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
             if(priceSim>getPriceSimilarityThreshold() && volumeSim>getVolumeSimilarityThreshold()){
                 totalCount++;
                 isSuccess(sm, pm2.getBuyingDate());
-                logger.info("priceSim: " + getPriceSimilarityThreshold() + " volumeSim: " + getVolumeSimilarityThreshold() + ", " + pm.getIndex() + " against " + pm2.getStockName() + " Date: " + date);
-                logger.info("=================================================================================");
+                logger.trace("priceSim: " + getPriceSimilarityThreshold() + " volumeSim: " + getVolumeSimilarityThreshold() + ", " + pm.getIndex() + " against " + pm2.getStockName() + " Date: " + date + " rate: " + successCount / totalCount + ", Total: " + totalCount);
+                logger.trace("=================================================================================");
                 return true;
             }
         }
@@ -125,11 +164,5 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
         return success;
     }
 
-    public Date getDate() {
-        return date;
-    }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

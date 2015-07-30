@@ -1,8 +1,8 @@
 package com.insight.generator.runner.prototpye;
 
-import com.insight.generator.PatternGeneratorConfig;
+import com.insight.PatternGeneratorConfig;
 import com.insight.generator.constant.TestStockName;
-import com.insight.generator.validation.AbstractValidation;
+import com.insight.validation.AbstractValidation;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.InitializingBean;

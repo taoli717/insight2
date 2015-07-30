@@ -1,6 +1,6 @@
 package com.insight.generator.runner.prototpye;
 
-import com.insight.generator.PatternGeneratorConfig;
+import com.insight.PatternGeneratorConfig;
 import com.insight.generator.prototype.service.PrototypeService;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;

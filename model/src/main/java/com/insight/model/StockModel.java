@@ -3,6 +3,7 @@ package com.insight.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
@@ -10,7 +11,7 @@ import java.util.LinkedHashMap;
  * Created by PC on 10/28/2014.
  */
 @Document(collection = "stock_model")
-public class StockModel {
+public class StockModel implements Serializable{
 
     public StockModel(){}
 

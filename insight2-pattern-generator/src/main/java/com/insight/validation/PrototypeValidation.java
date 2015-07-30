@@ -1,13 +1,11 @@
-package com.insight.generator.validation;
+package com.insight.validation;
 
 import com.insight.generator.aggregate.service.PatternAggregateService;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.StockDao;
 import com.insight.generator.prototype.service.PrototypeService;
 import com.insight.generator.service.PatternMatrixService;
-import com.insight.generator.service.StockDataGeneratorService;
 import com.insight.generator.service.StockParserService;
-import com.insight.generator.service.StockParserServiceImpl;
 import com.insight.model.Aggregation;
 import com.insight.model.PatternMatrix;
 import com.insight.model.RawPatternModel;
@@ -15,9 +13,7 @@ import com.insight.model.StockModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**

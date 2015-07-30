@@ -1,33 +1,30 @@
-package com.insight.generator.validation;
+package com.insight.validation;
 
+import com.google.common.base.Stopwatch;
 import com.insight.generator.aggregate.service.PatternAggregateService;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.dao.PatternMatrixDao;
 import com.insight.generator.dao.StockDao;
-import com.insight.generator.matching.dao.PatternCosineSimilarityDao;
 import com.insight.generator.matching.service.PatternCosineSimilarityService;
 import com.insight.generator.prototype.dao.PrototypeDao;
-import com.insight.generator.prototype.service.PrototypeService;
 import com.insight.generator.service.PatternMatrixService;
 import com.insight.generator.service.StockParserService;
-import com.insight.generator.service.StockParserServiceImpl;
 import com.insight.model.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by PC on 4/12/2015.
  */
 @Service
 @Scope("prototype")
-public class PrototypeSimilarityValidation extends AbstractValidation{
+public class PatternMatrixSimilarityValidation extends AbstractValidation{
 
     @Autowired
     StockParserService stockParserService;
@@ -50,12 +47,11 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
     @Autowired
     PatternMatrixDao patternMatrixDao;
 
-    private static Logger logger = Logger.getLogger(PrototypeSimilarityValidation.class);
+    private static Logger logger = Logger.getLogger(PatternMatrixSimilarityValidation.class);
 
     @Override
     public void run() {
-        //validatePatternMatrix(null);
-        validateSignature(null);
+        validatePatternMatrix();
     }
 
     // TODO use reactive style
@@ -93,7 +89,6 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
         logger.trace(pp.getId());
         ArrayList arrayList = new ArrayList();
         if(pp != null){
-            aggregationLoop:
             for(Aggregation agg : pp.getMembers()){
                 successCount = 0;
                 totalCount = 0;
@@ -110,10 +105,8 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
                                 }
                             }
                         }
-                        boolean toContinue = toContinue();
-                        if(!toContinue){
-                            break aggregationLoop;
-                        }
+                        if(totalCount>getSamplingPool())
+                            break;
                     }catch (Exception e){
                         logger.error("unable to validate", e);
                         logger.error(stockName + " skipped");
@@ -127,6 +120,7 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
 
     @Override
     public void validatePatternMatrix(String patternMatixIndex){//crappy, need to change
+        Stopwatch stopwatch = Stopwatch.createStarted();
         successCount = 0;
         totalCount = 0;
         logger.trace("validating " + getPatternMatrixIndex() + " " + getPriceSimilarityThreshold() + " " + getVolumeSimilarityThreshold() + " " + getSellingTarget());
@@ -139,7 +133,7 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
                         comparePatternMatrix(pm, date, sm);
                     }
                 }
-                if(totalCount>SAMPLING_POOL && successCount/totalCount<0.3){
+                if(totalCount>SAMPLING_POOL && successCount/totalCount*100<30){
                     logDetails(pm.getIndex());
                     return;
                 }
@@ -150,6 +144,9 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
             }
         }
         logDetails(pm.getIndex());
+        stopwatch.stop(); // optional
+        long seconds = stopwatch.elapsed(TimeUnit.SECONDS);
+        logger.info("time spent: " + seconds);
     }
 
     @Override
@@ -189,6 +186,5 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
         }
         return success;
     }
-
 
 }

@@ -1,6 +1,7 @@
-package com.insight.generator;
+package com.insight;
 
-import com.insight.generator.validation.*;
+import com.insight.learner.PatternMatrixSimilarityLearner;
+import com.insight.validation.*;
 import org.springframework.cache.CacheManager;
 import com.insight.generator.aggregate.dao.AggregateDao;
 import com.insight.generator.aggregate.dao.AggregateDaoImpl;
@@ -21,6 +22,7 @@ import com.insight.generator.prototype.service.PrototypeServiceImpl;
 import com.insight.generator.service.PatternMatrixService;
 import com.insight.generator.service.PatternMatrixServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @ComponentScan({"com.insight"})
+@EnableCaching
 @Import({ MongoConfig.class, DataGeneratorAppConfig.class})
 public class PatternGeneratorConfig {
 
@@ -115,10 +118,18 @@ public class PatternGeneratorConfig {
         Validation patternMatrixWithDateSimilarityValidation = new PatternMatrixWithDateSimilarityValidation();
         return patternMatrixWithDateSimilarityValidation;
     }
+
+    @Bean
+    @Qualifier("PatternMatrixSimilarityLearner")
+    Validation patternMatrixSimilarityLearner(){
+        Validation patternMatrixSimilarityLearner = new PatternMatrixSimilarityLearner();
+        return patternMatrixSimilarityLearner;
+    }
+
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-        pool.setCorePoolSize(4);
+        pool.setCorePoolSize(6);
         pool.setMaxPoolSize(100);
         pool.setWaitForTasksToCompleteOnShutdown(true);
         return pool;
