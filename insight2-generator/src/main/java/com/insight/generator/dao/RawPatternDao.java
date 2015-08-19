@@ -4,7 +4,7 @@ package com.insight.generator.dao;
 import com.insight.model.RawPatternModel;
 
 /**
- * Created by PC on 11/29/2014.
+ * Created by tli on 11/29/2014.
  */
 public interface RawPatternDao {
     public boolean save(RawPatternModel rpm);

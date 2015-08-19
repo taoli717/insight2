@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 /**
- * Created by PC on 3/22/2015.
+ * Created by tli on 3/22/2015.
  */
 @Document(collection = "aggregation")
 public class Aggregation {

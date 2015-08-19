@@ -14,7 +14,7 @@ public class MongoConfig {
 	public @Bean
 	MongoDbFactory mongoDbFactory() throws Exception {
 
-		MongoClient mongo = new MongoClient("127.0.0.1:27018");
+		MongoClient mongo = new MongoClient("127.0.0.1:27017");
 		SimpleMongoDbFactory simpleMongoDbFactory = new SimpleMongoDbFactory(mongo, "meemee");
 		return simpleMongoDbFactory;
 

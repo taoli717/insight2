@@ -4,7 +4,7 @@ import com.insight.model.PatternCosineSimilarity;
 import com.insight.model.PatternMatrix;
 
 /**
- * Created by PC on 3/3/2015.
+ * Created by tli on 3/3/2015.
  */
 public interface PatternCosineSimilarityService {
 

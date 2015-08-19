@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by PC on 3/31/2015.
+ * Created by tli on 3/31/2015.
  */
 public class PatternMatrixValidationRunner implements InitializingBean {
 
@@ -30,7 +30,7 @@ public class PatternMatrixValidationRunner implements InitializingBean {
     public void afterPropertiesSet() throws Exception {}
 
     public static void init(){
-        String[] matrixIndexArray = {"CSX*#*415"};
+        String[] matrixIndexArray = {"TDW*#*258"};
         logger.info(Arrays.toString(matrixIndexArray));
         matrixIndexes.addAll(Arrays.asList(matrixIndexArray));
     }
@@ -71,7 +71,7 @@ public class PatternMatrixValidationRunner implements InitializingBean {
                 validation = (AbstractValidation) ctx.getBean("patternMatrixSimilarityValidation");
                 validation.setSellingTarget(1.10);
                 validation.setPriceSimilarityThreshold(0.90);
-                validation.setVolumeSimilarityThreshold(0.60);
+                validation.setVolumeSimilarityThreshold(0.50);
                 validation.setSamplingPool(100000);
                 validation.setPatternMatrixIndex(matrixIndex);
                 validation.setTestStockPool(getStockNames());
@@ -87,10 +87,10 @@ public class PatternMatrixValidationRunner implements InitializingBean {
     }
 
     public static String[] getStockNames(){
-/*        int dataPoolDividen = 1;
+        int dataPoolDividen = 4;
         String[] stockNames = TestStockName.ALL_STOCK_NAME;
         int endIndex = stockNames.length/dataPoolDividen;
-        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);*/
-        return TestStockName.TEST_STOCK_NAME;
+        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);
+        //return TestStockName.TEST_STOCK_NAME;
     }
 }

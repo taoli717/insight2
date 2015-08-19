@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 
 /**
- * Created by PC on 1/20/2015.
+ * Created by tli on 1/20/2015.
  */
 @Service
 public class MarketItOnDemandStockParser implements StockParser{

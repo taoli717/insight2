@@ -14,13 +14,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by PC on 4/12/2015.
+ * Created by tli on 4/12/2015.
  */
 @Service
 @Scope("prototype")
@@ -54,6 +55,37 @@ public class PatternMatrixSimilarityValidation extends AbstractValidation{
         validatePatternMatrix();
     }
 
+    @Override
+    public void validatePatternMatrix() {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        successCount = 0;
+        totalCount = 0;
+        logger.trace("validating " + getPatternMatrixIndex() + " " + getPriceSimilarityThreshold() + " " + getVolumeSimilarityThreshold() + " " + getSellingTarget());
+        PatternMatrix pm = patternMatrixDao.get(getPatternMatrixIndex());
+        for(String stockName : getTestStockPool()){
+            try{
+                StockModel sm = stockDao.load(stockName);
+                if(sm != null){
+                    for(Date date :  sm.getDailyStocks().keySet()){
+                        comparePatternMatrix(pm, date, sm);
+                    }
+                }
+                if(totalCount>SAMPLING_POOL && successCount/totalCount*100<30){
+                    logDetails(pm.getIndex());
+                    return;
+                }
+            }catch (Exception e){
+                logger.error("unable to validate", e);
+                logger.error(stockName + " skipped");
+                logger.error("=================================================================================");
+            }
+        }
+        logDetails(pm.getIndex());
+        stopwatch.stop(); // optional
+        long seconds = stopwatch.elapsed(TimeUnit.SECONDS);
+        logger.info("time spent: " + seconds);
+    }
+
     // TODO use reactive style
     @Override
     public void validateSignature(Date date, String prototype){
@@ -82,8 +114,8 @@ public class PatternMatrixSimilarityValidation extends AbstractValidation{
     }
 
     @Override
-    public void validateSignature(String prototype){
-        prototype = this.prototype;
+    public void validateSignature(){
+        String prototype = this.prototype;
         StockModel sm = null;
         PatternPrototype pp = prototypeDao.get(prototype);
         logger.trace(pp.getId());
@@ -119,39 +151,8 @@ public class PatternMatrixSimilarityValidation extends AbstractValidation{
     }
 
     @Override
-    public void validatePatternMatrix(String patternMatixIndex){//crappy, need to change
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        successCount = 0;
-        totalCount = 0;
-        logger.trace("validating " + getPatternMatrixIndex() + " " + getPriceSimilarityThreshold() + " " + getVolumeSimilarityThreshold() + " " + getSellingTarget());
-        PatternMatrix pm = patternMatrixDao.get(getPatternMatrixIndex());
-        for(String stockName : getTestStockPool()){
-            try{
-                StockModel sm = stockDao.load(stockName);
-                if(sm != null){
-                    for(Date date :  sm.getDailyStocks().keySet()){
-                        comparePatternMatrix(pm, date, sm);
-                    }
-                }
-                if(totalCount>SAMPLING_POOL && successCount/totalCount*100<30){
-                    logDetails(pm.getIndex());
-                    return;
-                }
-            }catch (Exception e){
-                logger.error("unable to validate", e);
-                logger.error(stockName + " skipped");
-                logger.error("=================================================================================");
-            }
-        }
-        logDetails(pm.getIndex());
-        stopwatch.stop(); // optional
-        long seconds = stopwatch.elapsed(TimeUnit.SECONDS);
-        logger.info("time spent: " + seconds);
-    }
-
-    @Override
-    public void validatePatternMatrix() {
-        validatePatternMatrix(null);
+    public void validatePatternMatrix(String patternMatixIndex) {
+        throw new NotImplementedException();
     }
 
     public boolean comparePatternMatrix(PatternMatrix pm, Date date, StockModel sm) throws Exception {
@@ -163,6 +164,7 @@ public class PatternMatrixSimilarityValidation extends AbstractValidation{
         if(pm2!=null ){
             double priceSim  = patternCosineSimilarityService.comparePrice(pm, pm2);
             double volumeSim  = patternCosineSimilarityService.compareVolumn(pm, pm2);
+            totalTraverseCount++;
             if(priceSim>getPriceSimilarityThreshold() && volumeSim>getVolumeSimilarityThreshold()){
                 totalCount++;
                 isSuccess(sm, pm2.getBuyingDate());
@@ -178,10 +180,10 @@ public class PatternMatrixSimilarityValidation extends AbstractValidation{
         PatternMatrix pm2 = null;
         boolean success = false;
         RawPatternModel rpm = stockParserService.getRPMWithDate4Testing(sm, date);
-        if(rpm!=null)
+        if(rpm!=null){
             pm2 = patternMatrixService.parseRawPatternModel(rpm, 0);
-
-        if(pm2!=null ){
+        }
+        if (pm2 != null) {
             success = isSuccess(sm, pm2.getBuyingDate());
         }
         return success;

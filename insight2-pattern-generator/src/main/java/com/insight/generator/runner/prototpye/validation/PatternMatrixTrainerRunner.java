@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by PC on 3/31/2015.
+ * Created by tli on 3/31/2015.
  */
 public class PatternMatrixTrainerRunner implements InitializingBean {
 
@@ -30,7 +30,7 @@ public class PatternMatrixTrainerRunner implements InitializingBean {
     public void afterPropertiesSet() throws Exception {}
 
     public static void init(){
-        String[] matrixIndexArray = {"CSX*#*415"};
+        String[] matrixIndexArray = {"ARW*#*467"};
         logger.info(Arrays.toString(matrixIndexArray));
         matrixIndexes.addAll(Arrays.asList(matrixIndexArray));
     }
@@ -89,11 +89,11 @@ public class PatternMatrixTrainerRunner implements InitializingBean {
     }
 
     public static String[] getStockNames(){
-/*        int dataPoolDividen = 5;
+        int dataPoolDividen = 5;
         String[] stockNames = TestStockName.ALL_STOCK_NAME;
         int endIndex = stockNames.length/dataPoolDividen;
-        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);*/
-        String[] returnString = {"DDD", "MMM"};
-        return returnString;
+        return Arrays.asList(TestStockName.ALL_STOCK_NAME).subList(0, endIndex).toArray(new String[endIndex]);
+        /*String[] returnString = {"DDD", "MMM"};
+        return returnString;*/
     }
 }

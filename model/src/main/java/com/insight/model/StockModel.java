@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 /**
- * Created by PC on 10/28/2014.
+ * Created by tli on 10/28/2014.
  */
 @Document(collection = "stock_model")
 public class StockModel implements Serializable{

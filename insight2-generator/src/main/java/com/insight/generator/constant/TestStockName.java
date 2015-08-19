@@ -1,7 +1,7 @@
 package com.insight.generator.constant;
 
 /**
- * Created by PC on 11/10/2014.
+ * Created by tli on 11/10/2014.
  */
 public class TestStockName {
 

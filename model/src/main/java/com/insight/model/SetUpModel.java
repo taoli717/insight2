@@ -1,7 +1,7 @@
 package com.insight.model;
 
 /**
- * Created by PC on 1/11/2015.
+ * Created by tli on 1/11/2015.
  */
 public class SetUpModel {
 

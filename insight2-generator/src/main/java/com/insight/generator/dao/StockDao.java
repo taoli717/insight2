@@ -4,14 +4,14 @@ import com.insight.model.StockModel;
 import org.springframework.cache.annotation.Cacheable;
 
 /**
- * Created by PC on 11/7/2014.
+ * Created by tli on 11/7/2014.
  */
 public interface StockDao {
-    public boolean save(StockModel sm);
+    boolean save(StockModel sm);
 
-    public StockModel load(String stockName);
-    public Object loadNext();
-    public long getNextSequenceId(String key) throws Exception;
-    public boolean isDBExist(String DBName);
-    public StockModel getNextStock();
+    StockModel load(String stockName);
+    Object loadNext();
+    long getNextSequenceId(String key) throws Exception;
+    boolean isDBExist(String DBName);
+    StockModel getNextStock();
 }

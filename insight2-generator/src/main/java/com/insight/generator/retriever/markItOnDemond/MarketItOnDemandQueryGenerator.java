@@ -1,7 +1,7 @@
 package com.insight.generator.retriever.markItOnDemond;
 
 /**
- * Created by PC on 11/8/2014.
+ * Created by tli on 11/8/2014.
  */
 public class MarketItOnDemandQueryGenerator {
     public static String getQuery(String stockName, String days){

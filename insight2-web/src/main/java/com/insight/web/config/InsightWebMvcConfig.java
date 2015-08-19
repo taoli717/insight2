@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 /**
- * Created by PC on 1/21/2015.
+ * Created by tli on 1/21/2015.
  */
 @Import({ DataGeneratorAppConfig.class, MongoConfig.class})
 @ComponentScan(basePackages = "com.insight")

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 /**
- * Created by PC on 2/1/2015.
+ * Created by tli on 2/1/2015.
  */
 @Document(collection = "pattern_matrix")
 public class PatternMatrix {

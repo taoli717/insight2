@@ -6,7 +6,7 @@ import com.insight.model.StockModel;
 import java.util.Date;
 
 /**
- * Created by PC on 1/4/2015.
+ * Created by tli on 1/4/2015.
  */
 public interface StockParserService {
     void parse() throws Exception;

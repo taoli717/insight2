@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
- * Created by PC on 4/12/2015.
+ * Created by tli on 4/12/2015.
  */
 @Service
 @Scope("prototype")
@@ -58,7 +58,7 @@ public class PatternMatrixWithDateSimilarityValidation extends AbstractValidatio
     }
 
     @Override
-    public void validateSignature(String prototype){
+    public void validateSignature(){
     }
 
     @Override

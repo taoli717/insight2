@@ -1,7 +1,7 @@
 package com.insight.generator.constant;
 
 /**
- * Created by PC on 10/28/2014.
+ * Created by tli on 10/28/2014.
  */
 public class StockConstant {
     public static final String[] NYSE_STOCK_NAMES = {"DDD" +

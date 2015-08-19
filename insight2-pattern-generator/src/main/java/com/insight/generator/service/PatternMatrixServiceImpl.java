@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
- * Created by PC on 2/1/2015.
+ * Created by tli on 2/1/2015.
  */
 @Service
 public class PatternMatrixServiceImpl implements PatternMatrixService {
@@ -34,7 +34,6 @@ public class PatternMatrixServiceImpl implements PatternMatrixService {
 
     private static final Logger logger = Logger.getLogger(PatternMatrixServiceImpl.class);
 
-    // @PostConstruct
     @Override
     public void parse() throws Exception {
        StopWatch stopWatch = new StopWatch();

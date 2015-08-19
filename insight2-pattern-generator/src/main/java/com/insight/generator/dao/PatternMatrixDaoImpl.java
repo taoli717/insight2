@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by PC on 2/1/2015.
+ * Created by tli on 2/1/2015.
  */
 @Service
 public class PatternMatrixDaoImpl implements PatternMatrixDao {

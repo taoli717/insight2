@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by PC on 10/26/2014.
+ * Created by tli on 10/26/2014.
  */
 public class MarkItOnDemondPriceRetriever implements PriceRetriever {
 

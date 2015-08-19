@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by PC on 4/27/2015.
+ * Created by tli on 4/27/2015.
  */
 @Service
 @Qualifier("yahooPriceRetriever")

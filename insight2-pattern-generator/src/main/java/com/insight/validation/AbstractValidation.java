@@ -1,5 +1,7 @@
 package com.insight.validation;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.insight.generator.constant.TestStockName;
 import com.insight.generator.service.StockParserServiceImpl;
 import com.insight.model.StockModel;
@@ -10,14 +12,14 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 /**
- * Created by PC on 5/20/2015.
+ * Created by tli on 5/20/2015.
  */
 public abstract class AbstractValidation implements Validation, Runnable{
 
     double priceSimilarityThreshold = 0.90;
     double volumeSimilarityThreshold = 0.40;
     double SELLING_TARGET = 1.10;
-    long SAMPLING_POOL = 1000;
+    long SAMPLING_POOL = 100000;
     public long successCount = 0;
     public long totalCount = 0;
     public long totalTraverseCount = 0l;
@@ -111,30 +113,52 @@ public abstract class AbstractValidation implements Validation, Runnable{
     void logDetails(String pmIndex){
         boolean success = toContinue();
         if(success){
-            logger.info("FinalSuccess: " + this.patternMatrixIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
-                    + ", success rate: " + (successCount*10000/totalCount)/100 + ", total: " + totalCount + " totalTraverseCount: " + totalTraverseCount);
+            logger.info(Objects.toStringHelper(this).add("FinalSuccess", this.patternMatrixIndex)
+                    .add("prototype", prototype)
+                    .add("priceSim: ", getPriceSimilarityThreshold())
+                    .add("volumnSim", getVolumeSimilarityThreshold())
+                    .add("target", getSellingTarget())
+                    .add("success rate", getSccessRate())
+                    .add("total", totalCount)
+                    .add("success count", successCount)
+                    .add("totalTraverseCount", totalTraverseCount).toString());
+//            logger.info("FinalSuccess: " + this.patternMatrixIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
+//                    + ", success rate: " + getSccessRate() + ", total: " + totalCount + " totalTraverseCount: " + totalTraverseCount);
         }else{
-            logger.info("Aborted: " + this.patternMatrixIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
-                    + ", success rate: " + (successCount*10000/totalCount)/100 + ", total: " + totalCount  + " totalTraverseCount: " + totalTraverseCount);
+            logger.info(Objects.toStringHelper(this)
+                .add("Aborted", this.patternMatrixIndex)
+                .add("prototype", prototype)
+                .add("priceSim: ", getPriceSimilarityThreshold())
+                .add("volumnSim", getVolumeSimilarityThreshold())
+                .add("target", getSellingTarget())
+                .add("success rate", getSccessRate())
+                .add("total", totalCount)
+                .add("success count", successCount)
+                .add("totalTraverseCount", totalTraverseCount).toString());
+//            logger.info("Aborted: " + this.patternMatrixIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
+//                    + ", success rate: " + getSccessRate() + ", total: " + totalCount  + " totalTraverseCount: " + totalTraverseCount);
         }
     }
 
     public boolean toContinue(){
+        if(totalTraverseCount>getSamplingPool() && totalCount < 5){
+            return false;
+        }
         if(totalCount<4){
             return true;
         }else if(totalCount<10){
-            if(successCount/totalCount<0.15){
+            if(getSccessRate()<0.25){
                 return false;
             }
         }else if(totalCount<20){
-            if(successCount/totalCount<0.2){
+            if(getSccessRate() <0.35){
                 return false;
             }
         }else if(totalCount<50){
-            if(successCount/totalCount<0.25){
+            if(getSccessRate() <0.40){
                 return false;
             }
-        }else if(successCount/totalCount<0.30){
+        }else if(getSccessRate() <0.50){
             return false;
         }
         return true;
@@ -146,6 +170,10 @@ public abstract class AbstractValidation implements Validation, Runnable{
 
     public void setPrototype(String prototype) {
         this.prototype = prototype;
+    }
+
+    public double getSccessRate(){
+        return (successCount*10000/totalCount)/100;
     }
 
 }

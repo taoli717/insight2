@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by PC on 4/12/2015.
+ * Created by tli on 4/12/2015.
  */
 @Service
 @Scope("prototype")
@@ -48,7 +48,7 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
 
     @Override
     public void run() {
-        validateSignature(null);
+        validateSignature();
     }
 
     // TODO use reactive style
@@ -57,8 +57,8 @@ public class PrototypeSimilarityValidation extends AbstractValidation{
     }
 
     @Override
-    public void validateSignature(String prototype){
-        prototype = this.prototype;
+    public void validateSignature(){
+        String prototype = this.prototype;
         StockModel sm = null;
         PatternPrototype pp = prototypeDao.get(prototype);
         logger.trace(pp.getId());

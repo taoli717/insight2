@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by PC on 11/15/2014.
+ * Created by tli on 11/15/2014.
  */
 @Service
 public class StockDataGeneratorServiceImpl implements StockDataGeneratorService {

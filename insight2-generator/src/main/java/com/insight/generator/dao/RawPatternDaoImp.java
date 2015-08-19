@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 /**
- * Created by PC on 11/29/2014.
+ * Created by tli on 11/29/2014.
  */
 @Service
 public class RawPatternDaoImp implements RawPatternDao {

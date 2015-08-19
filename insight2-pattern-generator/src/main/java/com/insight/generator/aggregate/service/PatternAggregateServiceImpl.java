@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 /**
- * Created by PC on 3/22/2015.
+ * Created by tli on 3/22/2015.
  */
 @Service
 //@DependsOn("patternCosineSimilarityService")

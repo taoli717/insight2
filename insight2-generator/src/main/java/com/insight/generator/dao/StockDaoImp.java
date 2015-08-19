@@ -15,7 +15,7 @@ import org.springframework.data.util.CloseableIterator;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by PC on 11/7/2014.
+ * Created by tli on 11/7/2014.
  */
 @Service
 public class StockDaoImp implements StockDao{
@@ -56,7 +56,7 @@ public class StockDaoImp implements StockDao{
     }
 
     @Override
-    @Cacheable(value="loadStock", key="#stockName")
+    //@Cacheable(value="loadStock", key="#stockName")
     public StockModel load(String stockName) {
         Query query = new Query();
         query.addCriteria(Criteria.where("stockName").is(stockName));

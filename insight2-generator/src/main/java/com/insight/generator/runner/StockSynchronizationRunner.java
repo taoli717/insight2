@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * Created by PC on 3/31/2015.
+ * Created by tli on 3/31/2015.
  */
 public class StockSynchronizationRunner implements InitializingBean {
 

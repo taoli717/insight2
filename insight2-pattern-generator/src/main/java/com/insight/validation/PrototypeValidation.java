@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 /**
- * Created by PC on 4/12/2015.
+ * Created by tli on 4/12/2015.
  */
 @Service
 public class PrototypeValidation extends AbstractValidation{
@@ -72,7 +72,7 @@ public class PrototypeValidation extends AbstractValidation{
     }
 
     @Override
-    public void validateSignature(String prototype) throws Exception {
+    public void validateSignature() throws Exception {
         StockModel sm = null;
         for(String stockName : TestStockName.ALL_STOCK_NAME){
             try{

@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * Created by PC on 3/31/2015.
+ * Created by tli on 3/31/2015.
  */
 public class PrototypeRunner implements InitializingBean {
 
@@ -23,7 +23,6 @@ public class PrototypeRunner implements InitializingBean {
         //BasicConfigurator.configure();
         ApplicationContext ctx = new AnnotationConfigApplicationContext(PatternGeneratorConfig.class);
         PatternAggregateService patternAggregateService = (PatternAggregateService) ctx.getBean("patternAggregateService");
-        PrototypeService prototypeService = (PrototypeService) ctx.getBean("prototypeService");
 
         // aggregate data into prototype from pattern matrix
         try{

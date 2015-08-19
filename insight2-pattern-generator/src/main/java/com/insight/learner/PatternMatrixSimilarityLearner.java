@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 /**
- * Created by PC on 4/12/2015.
+ * Created by tli on 4/12/2015.
  */
 @Service
 @Scope("prototype")
@@ -67,7 +67,7 @@ public class PatternMatrixSimilarityLearner extends AbstractValidation{
     }
 
     @Override
-    public void validateSignature(String prototype){
+    public void validateSignature(){
     }
 
     @Override
@@ -76,7 +76,7 @@ public class PatternMatrixSimilarityLearner extends AbstractValidation{
         PatternMatrix pm = patternMatrixDao.get(getPatternMatrixIndex());
         double y = 0l;
         boolean firstRun = true;
-        for(int i=0; i<=64; i++) {
+        for(int i=0; i<=63; i++) {
             boolean keepLoop = true;
             boolean initialAttempt = true;
             boolean incremental = true;

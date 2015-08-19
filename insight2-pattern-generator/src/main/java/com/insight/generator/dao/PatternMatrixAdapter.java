@@ -4,7 +4,7 @@ import com.insight.model.PatternMatrix;
 import com.mongodb.DBObject;
 
 /**
- * Created by PC on 3/22/2015.
+ * Created by tli on 3/22/2015.
  */
 public class PatternMatrixAdapter {
 

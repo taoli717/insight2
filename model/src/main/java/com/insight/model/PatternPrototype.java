@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 /**
- * Created by PC on 3/22/2015.
+ * Created by tli on 3/22/2015.
  */
 @Document(collection="patternPrototype")
 public class PatternPrototype  {

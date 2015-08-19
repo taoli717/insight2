@@ -33,12 +33,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
- * Created by PC on 3/28/2015.
+ * Created by tli on 3/28/2015.
  */
 
 @Configuration
 @ComponentScan({"com.insight"})
-@EnableCaching
+//@EnableCaching
 @Import({ MongoConfig.class, DataGeneratorAppConfig.class})
 public class PatternGeneratorConfig {
 
@@ -135,16 +135,16 @@ public class PatternGeneratorConfig {
         return pool;
     }
 
+/*
     @Bean
     public CacheManager cacheManager() {
         return new EhCacheCacheManager(ehCacheCacheManager().getObject());
     }
-
     @Bean
     public EhCacheManagerFactoryBean ehCacheCacheManager() {
         EhCacheManagerFactoryBean cmfb = new EhCacheManagerFactoryBean();
         cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
         cmfb.setShared(true);
         return cmfb;
-    }
+    }*/
 }

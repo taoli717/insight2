@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by PC on 1/11/2015.
+ * Created by tli on 1/11/2015.
  */
 @Service
 public class SetUpDaoImpl implements SetUpDao{

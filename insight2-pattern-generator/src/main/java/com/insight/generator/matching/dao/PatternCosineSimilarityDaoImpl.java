@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by PC on 3/4/2015.
+ * Created by tli on 3/4/2015.
  */
 @Service
 public class PatternCosineSimilarityDaoImpl implements PatternCosineSimilarityDao {

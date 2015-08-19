@@ -4,7 +4,7 @@ import com.insight.model.PatternMatrix;
 import com.insight.model.RawPatternModel;
 
 /**
- * Created by PC on 2/1/2015.
+ * Created by tli on 2/1/2015.
  */
 public interface PatternMatrixService {
 
@@ -12,5 +12,5 @@ public interface PatternMatrixService {
 
     void savePatternMatrix(PatternMatrix pm);
 
-    public void parse() throws Exception;
+    void parse() throws Exception;
 }

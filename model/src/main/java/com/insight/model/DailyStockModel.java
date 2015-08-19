@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by PC on 10/28/2014.
+ * Created by tli on 10/28/2014.
  */
 public class DailyStockModel implements Serializable{
     public Date date;

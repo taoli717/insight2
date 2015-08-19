@@ -3,7 +3,7 @@ package com.insight.generator.dao;
 import com.insight.model.PatternMatrix;
 
 /**
- * Created by PC on 2/1/2015.
+ * Created by tli on 2/1/2015.
  */
 public interface PatternMatrixDao {
 

@@ -4,7 +4,7 @@ import com.insight.model.PatternCosineSimilarity;
 import com.insight.model.PatternPrototype;
 
 /**
- * Created by PC on 3/4/2015.
+ * Created by tli on 3/4/2015.
  */
 public interface PatternCosineSimilarityDao {
 
