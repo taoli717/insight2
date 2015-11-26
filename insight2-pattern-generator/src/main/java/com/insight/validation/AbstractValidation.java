@@ -125,7 +125,7 @@ public abstract class AbstractValidation implements Validation, Runnable{
 //            logger.info("FinalSuccess: " + this.patternMatrixIndex + ", prototype: " + prototype + ", priceSim: " + getPriceSimilarityThreshold() + " volumnSim: " + getVolumeSimilarityThreshold() + ", target: " + getSellingTarget()
 //                    + ", success rate: " + getSccessRate() + ", total: " + totalCount + " totalTraverseCount: " + totalTraverseCount);
         }else{
-            logger.info(Objects.toStringHelper(this)
+            logger.debug(Objects.toStringHelper(this)
                 .add("Aborted", this.patternMatrixIndex)
                 .add("prototype", prototype)
                 .add("priceSim: ", getPriceSimilarityThreshold())
@@ -147,18 +147,18 @@ public abstract class AbstractValidation implements Validation, Runnable{
         if(totalCount<4){
             return true;
         }else if(totalCount<10){
-            if(getSccessRate()<0.25){
+            if(getSccessRate()<20){
                 return false;
             }
         }else if(totalCount<20){
-            if(getSccessRate() <0.35){
+            if(getSccessRate() <25){
                 return false;
             }
         }else if(totalCount<50){
-            if(getSccessRate() <0.40){
+            if(getSccessRate() <27){
                 return false;
             }
-        }else if(getSccessRate() <0.50){
+        }else if(getSccessRate() <30){
             return false;
         }
         return true;

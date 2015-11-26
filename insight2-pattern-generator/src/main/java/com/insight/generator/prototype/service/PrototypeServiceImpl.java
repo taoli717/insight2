@@ -66,7 +66,7 @@ public class PrototypeServiceImpl implements PrototypeService{
     }
 
     @Override
-    public Multimap start() throws Exception{
+    public Multimap<Integer, PatternPrototype> start() throws Exception{
         log.info("Started");
         Multimap<Integer, PatternPrototype> resultMap = ArrayListMultimap.create();
         List<PatternPrototype> patternList = this.filter(50l);// focus on prototype has more than 50 occurrences

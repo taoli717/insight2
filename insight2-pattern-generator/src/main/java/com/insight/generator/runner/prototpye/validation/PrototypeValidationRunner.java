@@ -41,7 +41,6 @@ public class PrototypeValidationRunner implements InitializingBean {
     }
 
     public static void main(String[] args){
-        //BasicConfigurator.configure();
         PrototypeValidationRunner runner = new PrototypeValidationRunner();
         String result = "";
         ClassLoader classLoader = runner.getClass().getClassLoader();
@@ -84,7 +83,6 @@ public class PrototypeValidationRunner implements InitializingBean {
         validation.setSellingTarget(1.10);
         validation.setPriceSimilarityThreshold(0.90);
         validation.setVolumeSimilarityThreshold(0.40);
-        //validation.setSamplingPool(100);
         validation.setPrototype(prototypeSignature);
         validation.setTestStockPool(getStockNames(5));
         taskExecutor.execute(validation);

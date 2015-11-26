@@ -8,6 +8,7 @@ import com.insight.model.Constants;
 import com.insight.model.RawPatternModel;
 import com.insight.model.DailyStockModel;
 import com.insight.model.StockModel;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -23,7 +24,8 @@ import java.util.*;
 //@DependsOn("stockDataGeneratorService")
 public class StockParserServiceImpl implements StockParserService{
 
-    public static double targetPect = .14;
+    @Setter
+    public double targetPect = .14;
     public static final int PATTERN_LENGTH = 64;
     public static final int buyingDayIndex = 120;
     public static final int holdingPeriod = 20;
